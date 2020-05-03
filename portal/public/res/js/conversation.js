@@ -115,8 +115,7 @@ var ConversationPanel = (function() {
   // Display a user or Slack message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
     var isUser = isUserMessage(typeValue);
-    var textExists = (newPayload.input && newPayload.input.text)
-      || (newPayload.output && newPayload.output.text);
+    var textExists = (newPayload.message);
     if (isUser !== null && textExists) {
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);

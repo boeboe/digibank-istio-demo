@@ -23,7 +23,7 @@ app.post('/api/message', function (req, res) {
     console.log(payload);
     sendToSlack(payload.message, payload.user);
 
-    res.status(200).send({'message': 'Done!'});
+    res.status(200).send({'message': 'Message received'});
 });
 
 app.get('/health', function (req, res) {
