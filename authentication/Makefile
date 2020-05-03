@@ -40,15 +40,15 @@ up: build run ## Run container on port configured in `config.env` (Alias to run)
 stop: ## Stop and remove a running container
 	docker stop $(APP_NAME); docker rm $(APP_NAME)
 
-release: build-nc publish ## Make a release by building and publishing the `{version}` ans `latest` tagged containers to ECR
+release: build-nc publish ## Make a release by building and publishing the `{version}` ans `latest` tagged containers
 
-publish: publish-latest publish-version ## Publish the `{version}` ans `latest` tagged containers to ECR
+publish: publish-latest publish-version ## Publish the `{version}` ans `latest` tagged containers
 
-publish-latest: tag-latest ## Publish the `latest` taged container to ECR
+publish-latest: tag-latest ## Publish the `latest` tagged container
 	@echo 'publish latest to $(DOCKER_ACCOUNT)/$(APP_NAME)'
 	docker push $(DOCKER_ACCOUNT)/$(APP_NAME):latest
 
-publish-version: tag-version ## Publish the `{version}` taged container to ECR
+publish-version: tag-version ## Publish the `{version}` tagged container
 	@echo 'publish $(VERSION) to $(DOCKER_ACCOUNT)/$(APP_NAME)'
 	docker push $(DOCKER_ACCOUNT)/$(APP_NAME):$(VERSION)
 

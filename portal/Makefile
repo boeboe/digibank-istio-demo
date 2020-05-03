@@ -44,11 +44,11 @@ release: build-nc publish ## Make a release by building and publishing the `{ver
 
 publish: publish-latest publish-version ## Publish the `{version}` and `latest` tagged containers
 
-publish-latest: tag-latest ## Publish the `latest` taged container
+publish-latest: tag-latest ## Publish the `latest` tagged container
 	@echo 'publish latest to $(DOCKER_ACCOUNT)/$(APP_NAME)'
 	docker push $(DOCKER_ACCOUNT)/$(APP_NAME):latest
 
-publish-version: tag-version ## Publish the `{version}` taged container
+publish-version: tag-version ## Publish the `{version}` tagged container
 	@echo 'publish $(VERSION) to $(DOCKER_ACCOUNT)/$(APP_NAME)'
 	docker push $(DOCKER_ACCOUNT)/$(APP_NAME):$(VERSION)
 
