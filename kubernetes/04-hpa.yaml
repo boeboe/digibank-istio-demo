@@ -11,8 +11,7 @@ spec:
     name: "accounts-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -26,8 +25,7 @@ spec:
     name: "authentication-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -41,8 +39,7 @@ spec:
     name: "bills-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -56,8 +53,7 @@ spec:
     name: "portal-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -71,8 +67,7 @@ spec:
     name: "support-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -86,6 +81,5 @@ spec:
     name: "transactions-deployment"
   minReplicas: 1
   maxReplicas: 3
-  targetAverageUtilization: 80
-  targetAverageUtilization: 80
+  targetCPUUtilizationPercentage: 80
 ---
