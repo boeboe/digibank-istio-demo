@@ -71,7 +71,7 @@ $(document).ready(function() {
             if (bill) {
               $(selectors[category].entity).html(bill.entity); $(selectors[category].popup_entity).html(bill.entity);
               $(selectors[category].account).html(' Account No. ' + bill.account_no); $(selectors[category].popup_account).html(' Account No. ' + bill.account_no);
-              $(selectors[category].amount).html('AED ' + bill.amount); $(selectors[category].popup_amount).html('AED ' + bill.amount);
+              $(selectors[category].amount).html(bill.currency + ' ' + bill.amount); $(selectors[category].popup_amount).html(bill.currency + ' ' + bill.amount);
               $(selectors[category].confirm_button).attr("href", "/endpoints/bills/pay?amount="+bill.amount+"&entity="+bill.entity+"&category="+category+"&account="+bill.account_no);
               if (bill.amount <= 0) $(selectors[category].button).removeClass('btn-ghost').addClass('btn-disabled')
               total += bill.amount
@@ -80,7 +80,7 @@ $(document).ready(function() {
               $(selectors[category].button).removeClass('btn-ghost').addClass('btn-disabled')
             }
           }
-          $('#js-total').html(`<span class="small">AED </span>` + total)
+          $('#js-total').html(`<span class="small">` + bill.currency + ' ' + `</span>` + total)
         }
       };
       http.send(JSON.stringify({'uuid': uuid}));

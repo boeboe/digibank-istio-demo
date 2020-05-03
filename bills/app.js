@@ -21,6 +21,7 @@ app.post('/api/bills/create', function (req, res) {
         entity: req.body.entity,
         account_no: req.body.account_no,
         amount: req.body.amount,
+        currency: req.body.currency,
         date: req.body.date
     };
     bills.update({'category': req.body.category}, newBill, {upsert: true}, function (err) {

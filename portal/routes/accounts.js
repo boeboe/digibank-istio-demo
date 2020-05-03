@@ -7,14 +7,14 @@ module.exports = function (app, request) {
         var params = {
         	  uuid: req.session.user.uuid,
             amount: req.body.amount,
-            currency: "AED",
+            currency: process.env.CURRENCY,
             description: "Transfer",
             date: dateFormat(new Date(), "mm, dd, yyyy"),
             category: "cash"
         };
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
             body: params,
             json: true
         };
@@ -25,10 +25,11 @@ module.exports = function (app, request) {
             }
             var options = {
                  method: 'POST',
-                 uri: `${req.protocol}://${req.hostname}:${process.env.ACCOUNTS_PORT}${process.env.ACCOUNT_WITHDRAW_ENDPOINT}`,
+                 uri: `http://${process.env.ACCOUNTS_ADDRESS}:${process.env.ACCOUNTS_PORT}${process.env.ACCOUNT_WITHDRAW_ENDPOINT}`,
                  body: {
                    uuid: req.session.user.uuid,
                    amount: req.body.amount,
+                   currency: req.body.currency,
                    number: from
                  },
                  json: true
@@ -40,10 +41,11 @@ module.exports = function (app, request) {
               }
               var options = {
                 method: 'POST',
-                uri: `${req.protocol}://${req.hostname}:${process.env.ACCOUNTS_PORT}${process.env.ACCOUNT_DEPOSIT_ENDPOINT}`,
+                uri: `http://${process.env.ACCOUNTS_ADDRESS}:${process.env.ACCOUNTS_PORT}${process.env.ACCOUNT_DEPOSIT_ENDPOINT}`,
                 body: {
                   uuid: req.session.user.uuid,
                   amount: req.body.amount,
+                  currency: req.body.currency,
                   number: to
                 },
                 json: true
@@ -64,11 +66,11 @@ module.exports = function (app, request) {
       var body = {
         uuid: req.session.user.uuid,
         type: req.query.type,
-        currency: 'AED'
+        currency: process.env.CURRENCY
       }
       var options = {
         method: 'POST',
-        uri: `${req.protocol}://${req.hostname}:${process.env.ACCOUNTS_PORT}${process.env.CREATE_ACCOUNT_ENDPOINT}`,
+        uri: `http://${process.env.ACCOUNTS_ADDRESS}:${process.env.ACCOUNTS_PORT}${process.env.CREATE_ACCOUNT_ENDPOINT}`,
         body: body,
         json: true
       };
@@ -85,7 +87,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/accounts/get', function (req, res) {
       var options = {
         method: 'POST',
-        uri: `${req.protocol}://${req.hostname}:${process.env.ACCOUNTS_PORT}${process.env.GET_ACCOUNTS_ENDPOINT}`,
+        uri: `http://${process.env.ACCOUNTS_ADDRESS}:${process.env.ACCOUNTS_PORT}${process.env.GET_ACCOUNTS_ENDPOINT}`,
         body: {
           uuid: req.session.user.uuid
         },

@@ -37,7 +37,7 @@
 				<h2>Accounts</h2>
 			</div>
 			<div class="row">
-				<h3><span class="small">AED </span><span id='js-balance'></span></h3>
+				<h3><span class="small" id='js-currency'></span><span id='js-balance'></span></h3>
 				<p>Total balance</p>
 			</div>
 		</section>
@@ -136,7 +136,7 @@
 				<h2>Proceed?</h2>
 				<a class="close" href="#">&times;</a>
 				<div class="content">
-					You're about to activate your savings account. This account is free to activate and maintain. A minimum balance of 3000 AED is required.
+					You're about to activate your savings account. This account is free to activate and maintain. A minimum balance of 3000 <span id='js-currency'></span>is required.
 				</div>
 				<a id="savings_confirm_button" class="btn btn-full" href="/endpoints/accounts/activate?type=savings">Go ahead</a>
 			</div>

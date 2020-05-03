@@ -2,7 +2,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/transactions/get', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${process.env.TRANSACTIONS_PORT}${process.env.GET_TRANSACTIONS_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.GET_TRANSACTIONS_ENDPOINT}`,
             body: req.body,
             json: true
         };

@@ -39,7 +39,7 @@ $(document).ready(function() {
                           `<p>`+transaction.date+`</p>` +
                       `</div>` +
                       `<div class="col span-1-of-3">` +
-                          `<h3>AED `+transaction.amount+`</h3>` +
+                          `<h3>`+transaction.currency+` `+transaction.amount+`</h3>` +
                       `</div>` +
                   `</div>`
               })

@@ -4,14 +4,14 @@ module.exports = function (app, request) {
         var params = {
             "uuid": req.session.user.uuid,
             "amount": req.query.amount,
-            "currency": "AED",
+            "currency": process.env.CURRENCY,
             "description": req.query.entity,
             "date": dateFormat(new Date(), "mm, dd, yyyy"),
             "category": "bills"
         };
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
             body: params,
             json: true
         };
@@ -26,11 +26,12 @@ module.exports = function (app, request) {
                 entity: req.query.entity,
                 account_no: req.query.account,
                 amount: 0.00,
+                currency: process.env.CURRENCY,
                 date: dateFormat(new Date(), "mm, dd, yyyy")
             };
             var options = {
                 method: 'POST',
-                uri: `${req.protocol}://${req.hostname}:${process.env.BILLS_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
+                uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
                 body: params,
                 json: true
             };
@@ -47,7 +48,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/bills/get', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${process.env.BILLS_PORT}${process.env.GET_BILLS_ENDPOINT}`,
+            uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.GET_BILLS_ENDPOINT}`,
             body: req.body,
             json: true
         };

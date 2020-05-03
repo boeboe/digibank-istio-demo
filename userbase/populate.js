@@ -92,7 +92,7 @@ module.exports = function (request, dateFormat) {
         var body = {
             uuid: uuid,
             amount: amount,
-            currency: 'AED',
+            currency: process.env.CURRENCY,
             category: randomEntries.transactions[randomCategoryIndex].category,
             description: randomEntries.transactions[randomCategoryIndex].description[randomDescriptionIndex],
             date: date
@@ -120,6 +120,7 @@ module.exports = function (request, dateFormat) {
             category: randomEntries.bills[randomIndex].category,
             entity: randomEntries.bills[randomIndex].entity,
             amount: amount,
+            currency: process.env.CURRENCY,
             date: date,
             account_no: account_no
         };
@@ -207,8 +208,8 @@ module.exports = function (request, dateFormat) {
     }
 
     function init() {
-        setInterval(reset, 3600000);
-        setInterval(populate, 180000);
+        setInterval(reset, 36000000);
+        setInterval(populate, 18000);
     }
 
     reset();

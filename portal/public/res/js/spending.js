@@ -70,10 +70,10 @@ $(document).ready(function() {
           var transactions = JSON.parse(http.responseText).group(item => item.category);
           console.log(transactions)
           for (var selector in selectors) {
-            var transaction = transactions.find(item => item.key==selector)
+            var transaction = transactions.find(item => item.key==selector);
             if (transaction && transaction.total > 0) {
               $(selectors[transaction.key].count).html(transaction.data.length + ' transactions');
-              $(selectors[transaction.key].total).html('AED ' + Math.round(transaction.total*100)/100);
+              $(selectors[transaction.key].total).html(transaction.data[0].currency + ' ' + Math.round(transaction.total*100)/100);
               total += transaction.total;
             }
             else {
@@ -81,7 +81,8 @@ $(document).ready(function() {
               $(selectors[selector].link).removeAttr('href')
             }
           }
-          $('#js-total').html(total)
+          $('#js-currency').html(transaction.data[0].currency + ' ');
+          $('#js-total').html(total);
         }
       };
       http.send(JSON.stringify({'uuid': uuid}));

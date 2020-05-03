@@ -2,7 +2,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/support/chat', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${process.env.SUPPORT_PORT}${process.env.CHAT_ENDPOINT}`,
+            uri: `http://${process.env.SUPPORT_ADDRESS}:${process.env.SUPPORT_PORT}${process.env.CHAT_ENDPOINT}`,
             body: req.body,
             json: true
         };

@@ -54,7 +54,7 @@ $(document).ready(function() {
             if (account) {
               $(selectors[type].label).html('Account No. ');
               $(selectors[type].number).html(account.number);
-              $(selectors[type].balance).html('AED ' + account.balance);
+              $(selectors[type].balance).html(account.currency + ' ' + account.balance);
               $(selectors[type].button).html('Transfer');
               if (account.balance <= 0) $(selectors[type].button).removeClass('btn-ghost').addClass('btn-disabled')
               $(selectors[type].button).attr("href", "#confirm-popup-transfer");
@@ -70,6 +70,7 @@ $(document).ready(function() {
           }
           $('#from').html(innerHTML)
           $('#to').html(innerHTML)
+          $('#js-currency').html(account.currency + ' ')
           $('#js-balance').html(total)
         }
       };
