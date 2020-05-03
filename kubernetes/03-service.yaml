@@ -10,7 +10,7 @@ spec:
   ports:
     - name: tcp-mongo
       port: 27017
-      targertPort: 27017
+      targetPort: 27017
   selector:
     app: "mongo"
 ---
@@ -25,7 +25,7 @@ spec:
   ports:
     - name: http-accounts
       port: 3400
-      targertPort: 3400
+      targetPort: 3400
   selector:
     app: "accounts"
 ---
@@ -40,7 +40,7 @@ spec:
   ports:
     - name: http-authentication
       port: 3200
-      targertPort: 3200
+      targetPort: 3200
   selector:
     app: "authentication"
 ---
@@ -55,7 +55,7 @@ spec:
   ports:
     - name: http-bills
       port: 3800
-      targertPort: 3800
+      targetPort: 3800
   selector:
     app: "bills"
 ---
@@ -70,7 +70,7 @@ spec:
   ports:
     - name: http-portal
       port: 3000
-      targertPort: 3000
+      targetPort: 3000
   selector:
     app: "portal"
 ---
@@ -85,7 +85,7 @@ spec:
   ports:
     - name: http-support
       port: 4000
-      targertPort: 4000
+      targetPort: 4000
   selector:
     app: "support"
 ---
@@ -100,7 +100,7 @@ spec:
   ports:
     - name: http-transactions
       port: 3600
-      targertPort: 3600
+      targetPort: 3600
   selector:
     app: "transactions"
 ---
@@ -115,6 +115,6 @@ spec:
   ports:
     - name: http-userbase
       port: 4200
-      targertPort: 4200
+      targetPort: 4200
   selector:
     app: "userbase"
