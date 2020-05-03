@@ -16,6 +16,14 @@ module.exports = function (request, dateFormat) {
             {
                 category: 'credit_card',
                 entity: 'Innovate'
+            },
+            {
+                category: 'internet',
+                entity: 'AT&T'
+            },
+            {
+                category: 'fuel_card',
+                entity: 'Total'
             }
         ],
         transactions: [
@@ -26,7 +34,15 @@ module.exports = function (request, dateFormat) {
                     'Lulu Hypermarket',
                     'Geant',
                     'Waitrose',
-                    'Spinneys'
+                    'Spinneys',
+                    'Intermarché',
+                    'Woolsworth',
+                    'Kroger',
+                    'Delhaize',
+                    'Albert Heijn',
+                    'Aldi',
+                    'The Kroger Co',
+                    'Albertsons Companies'
                 ]
             },
             {
@@ -38,14 +54,30 @@ module.exports = function (request, dateFormat) {
                     'Starbucks',
                     'Costa Coffee',
                     'Blaze Burgers',
-                    'Cheesecake Factory'
+                    'Cheesecake Factory',
+                    'Noma',
+                    'Celler de Can Roca',
+                    'Osteria Francescana',
+                    'Eleven Madison Park',
+                    'Mugaritz',
+                    'Arzak',
+                    'Alinea',
+                    'The Ledbury',
+                    'KFC',
+                    'McDonalds',
+                    'Burger King',
+                    'Pizza Hut'
                 ]
             },
             {
                 category: 'transport',
                 description: [
                     'Uber',
-                    'Careem'
+                    'Careem',
+                    'Lyft',
+                    'Didi Chuxing',
+                    'Lime',
+                    'Waymo'
                 ]
             },
             {
@@ -54,7 +86,8 @@ module.exports = function (request, dateFormat) {
                     'Utilities',
                     'Home entertainment',
                     'Phone',
-                    'Credit card'
+                    'Credit card',
+                    'Internet subscription'
                 ]
             },
             {
@@ -78,7 +111,9 @@ module.exports = function (request, dateFormat) {
                 category: 'holidays',
                 description: [
                     'Flight ticket',
-                    'Hotel booking'
+                    'Hotel booking',
+                    'Car rental',
+                    'Museum visit'
                 ]
             }
         ]

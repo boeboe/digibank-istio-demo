@@ -46,6 +46,26 @@ $(document).ready(function() {
         popup_amount: '#credit_card_bill_amount',
         button: '#credit_card_pay_button',
         confirm_button: '#credit_card_confirm_button'
+    },
+    internet: {
+        entity: '#internet_entity',
+        account: '#internet_account',
+        amount: '#internet_amount',
+        popup_entity: '#internet_bill_entity',
+        popup_account: '#internet_bill_account',
+        popup_amount: '#internet_bill_amount',
+        button: '#internet_pay_button',
+        confirm_button: '#internet_confirm_button'
+    },
+    fuel_card: {
+        entity: '#fuel_card_entity',
+        account: '#fuel_card_account',
+        amount: '#fuel_card_amount',
+        popup_entity: '#fuel_card_bill_entity',
+        popup_account: '#fuel_card_bill_account',
+        popup_amount: '#fuel_card_bill_amount',
+        button: '#fuel_card_pay_button',
+        confirm_button: '#fuel_card_confirm_button'
     }
   }
 
