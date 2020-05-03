@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   name: digibank
   labels:
-    istio-injection: disabled
+    istio-injection: enabled
