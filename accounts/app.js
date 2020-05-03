@@ -107,4 +107,8 @@ app.get('/api/accounts/drop', function (req, res) {
     res.status(200).send({'message': 'Done!'});
 });
 
+app.get('/health', function (req, res) {
+    res.status(200).send({'message': 'Still healthy!'});
+});
+
 module.exports = app;

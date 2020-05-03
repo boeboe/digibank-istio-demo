@@ -16,6 +16,10 @@ app.all('*', function (req, res, next) {
     next();
 });
 
+app.get('/health', function (req, res) {
+  res.status(200).send({'message': 'Still healthy!'});
+});
+
 require('./populate.js')(request, dateFormat);
 
 module.exports = app;

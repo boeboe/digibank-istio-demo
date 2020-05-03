@@ -26,6 +26,10 @@ app.post('/api/message', function (req, res) {
     res.status(200).send({'message': 'Done!'});
 });
 
+app.get('/health', function (req, res) {
+  res.status(200).send({'message': 'Still healthy!'});
+});
+
 var request = require ("request");
 
 function sendToSlack (s, user) {
