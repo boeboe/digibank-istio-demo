@@ -2,7 +2,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/login', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `http://${process.env.AUTHENTICATION_ADDRESS}:${process.env.AUTHENTICATION_PORT}${process.env.LOGIN_ENDPOINT}`,
+            uri: `http://${process.env.AUTHENTICATION_SERVICE_HOST}:${process.env.AUTHENTICATION_SERVICE_PORT}${process.env.LOGIN_ENDPOINT}`,
             body: req.body,
             json: true
         };
@@ -21,7 +21,7 @@ module.exports = function (app, request) {
         console.log(req);
         var options = {
             method: 'POST',
-            uri: `http://${process.env.AUTHENTICATION_ADDRESS}:${process.env.AUTHENTICATION_PORT}${process.env.SIGNUP_ENDPOINT}`,
+            uri: `http://${process.env.AUTHENTICATION_SERVICE_HOST}:${process.env.AUTHENTICATION_SERVICE_PORT}${process.env.SIGNUP_ENDPOINT}`,
             body: req.body,
             json: true
         };

@@ -1,0 +1,466 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "mongo-deployment"
+  namespace: "digibank"
+  labels:
+    app: mongo
+spec:
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: "mvertes/alpine-mongo"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: mongo
+          containerPort: 27017
+        livenessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - "db.adminCommand('ping')"
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - "db.adminCommand('ping')"
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: data
+          mountPath: /data/db
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mongo
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "accounts-deployment"
+  namespace: "digibank"
+  labels:
+    app: "accounts"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "accounts"
+    spec:
+      containers:
+      - name: "accounts"
+        image: "boeboe/digibank-accounts-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3400
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "authentication-deployment"
+  namespace: "digibank"
+  labels:
+    app: "authentication"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "authentication"
+    spec:
+      containers:
+      - name: "authentication"
+        image: "boeboe/digibank-authentication-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3200
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "bills-deployment"
+  namespace: "digibank"
+  labels:
+    app: "bills"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "bills"
+    spec:
+      containers:
+      - name: "bills"
+        image: "boeboe/digibank-bills-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3800
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "portal-deployment"
+  namespace: "digibank"
+  labels:
+    app: "portal"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "portal"
+    spec:
+      containers:
+      - name: "portal"
+        image: "boeboe/digibank-portal-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          ##### Environment variables #####
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+          - name: CURRENCY
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: currency
+          - name: SESSION_SECRET
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: sessionSecret
+          ##### Accounts #####      
+          - name: CREATE_ACCOUNT_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: createAccountEndpoint
+          - name: GET_ACCOUNTS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: getAccountsEndpoint
+          - name: ACCOUNT_WITHDRAW_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: accountWithdrawEndpoint
+          - name: ACCOUNT_DEPOSIT_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: accountDepositEndpoint
+          - name: DROP_ACCOUNTS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropAccountsEndpoint
+          ##### Authentication #####
+          - name: SIGNUP_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: signupEndpoint
+          - name: LOGIN_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: loginEndpoint
+          - name: GET_USERS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: getUsersEndpoint
+          ##### Bills #####
+          - name: GET_BILLS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: getBillsEndpoint
+          - name: UPSERT_BILL_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: upsertBillEndpoint
+          - name: DROP_BILLS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropBillsEndpoint
+          ##### Support #####
+          - name: CHAT_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: chatEndpoint
+          ##### Transactions #####
+          - name: CREATE_TRANSACTION_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: createTransactionEndpoint
+          - name: GET_TRANSACTIONS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: getTransactionsEndpoint                
+          - name: DROP_TRANSACTIONS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropTransactionsEndpoint
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "support-deployment"
+  namespace: "digibank"
+  labels:
+    app: "support"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "support"
+    spec:
+      containers:
+      - name: "support"
+        image: "boeboe/digibank-support-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          - name: SLACK_WEBHOOK
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: slackWebhook
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "transactions-deployment"
+  namespace: "digibank"
+  labels:
+    app: "transactions"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "transactions"
+    spec:
+      containers:
+      - name: "transactions"
+        image: "boeboe/digibank-transactions-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3600
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "userbase-deployment"
+  namespace: "digibank"
+  labels:
+    app: "userbase"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: "userbase"
+    spec:
+      containers:
+      - name: "userbase"
+        image: "boeboe/digibank-userbase-svc"
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4200
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 300m
+            memory: 512Mi
+        env:
+          ##### Environment variables #####
+          - name: MONGO_URL
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: mongoUrl
+          - name: CURRENCY
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: currency
+          ##### Accounts #####
+          - name: DROP_ACCOUNTS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropAccountsEndpoint
+          ##### Authentication #####
+          - name: GET_USERS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: getUsersEndpoint
+          ##### Bills #####
+          - name: UPSERT_BILL_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: upsertBillEndpoint
+          - name: DROP_BILLS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropBillsEndpoint
+          ##### Transactions #####
+          - name: CREATE_TRANSACTION_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: createTransactionEndpoint
+          - name: DROP_TRANSACTIONS_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: dropTransactionsEndpoint

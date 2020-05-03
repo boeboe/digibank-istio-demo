@@ -11,7 +11,7 @@ module.exports = function (app, request) {
         };
         var options = {
             method: 'POST',
-            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_SERVICE_HOST}:${process.env.TRANSACTIONS_SERVICE_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
             body: params,
             json: true
         };
@@ -31,7 +31,7 @@ module.exports = function (app, request) {
             };
             var options = {
                 method: 'POST',
-                uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
+                uri: `http://${process.env.BILLS_SERVICE_HOST}:${process.env.BILLS_SERVICE_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
                 body: params,
                 json: true
             };
@@ -48,7 +48,7 @@ module.exports = function (app, request) {
     app.post('/endpoints/bills/get', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.GET_BILLS_ENDPOINT}`,
+            uri: `http://${process.env.BILLS_SERVICE_HOST}:${process.env.BILLS_SERVICE_PORT}${process.env.GET_BILLS_ENDPOINT}`,
             body: req.body,
             json: true
         };

@@ -1,0 +1,120 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "mongo"
+  namespace: "digibank"
+  labels:
+    app: "mongo"
+spec:
+  ports:
+    - name: tcp-mongo
+      port: 27017
+      targertPort: 27017
+  selector:
+    app: "mongo"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "accounts"
+  namespace: "digibank"
+  labels:
+    app: "accounts"
+spec:
+  ports:
+    - name: http-accounts
+      port: 3400
+      targertPort: 3400
+  selector:
+    app: "accounts"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "authentication"
+  namespace: "digibank"
+  labels:
+    app: "authentication"
+spec:
+  ports:
+    - name: http-authentication
+      port: 3200
+      targertPort: 3200
+  selector:
+    app: "authentication"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "bills"
+  namespace: "digibank"
+  labels:
+    app: "bills"
+spec:
+  ports:
+    - name: http-bills
+      port: 3800
+      targertPort: 3800
+  selector:
+    app: "bills"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "portal"
+  namespace: "digibank"
+  labels:
+    app: "portal"
+spec:
+  ports:
+    - name: http-portal
+      port: 3000
+      targertPort: 3000
+  selector:
+    app: "portal"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "support"
+  namespace: "digibank"
+  labels:
+    app: "support"
+spec:
+  ports:
+    - name: http-support
+      port: 4000
+      targertPort: 4000
+  selector:
+    app: "support"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "transactions"
+  namespace: "digibank"
+  labels:
+    app: "transactions"
+spec:
+  ports:
+    - name: http-transactions
+      port: 3600
+      targertPort: 3600
+  selector:
+    app: "transactions"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "userbase"
+  namespace: "digibank"
+  labels:
+    app: "userbase"
+spec:
+  ports:
+    - name: http-userbase
+      port: 4200
+      targertPort: 4200
+  selector:
+    app: "userbase"

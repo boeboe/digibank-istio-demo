@@ -136,7 +136,7 @@ module.exports = function (request, dateFormat) {
         console.log(body);
         var options = {
             method: 'POST',
-            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_SERVICE_HOST}:${process.env.TRANSACTIONS_SERVICE_PORT}${process.env.CREATE_TRANSACTION_ENDPOINT}`,
             body: body,
             json: true
         };
@@ -163,7 +163,7 @@ module.exports = function (request, dateFormat) {
         console.log(body);
         var options = {
             method: 'POST',
-            uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
+            uri: `http://${process.env.BILLS_SERVICE_HOST}:${process.env.BILLS_SERVICE_PORT}${process.env.UPSERT_BILL_ENDPOINT}`,
             body: body,
             json: true
         };
@@ -175,7 +175,7 @@ module.exports = function (request, dateFormat) {
     function dropBills() {
         var options = {
             method: 'GET',
-            uri: `http://${process.env.BILLS_ADDRESS}:${process.env.BILLS_PORT}${process.env.DROP_BILLS_ENDPOINT}`,
+            uri: `http://${process.env.BILLS_SERVICE_HOST}:${process.env.BILLS_SERVICE_PORT}${process.env.DROP_BILLS_ENDPOINT}`,
             json: true
         };
         request.get(options, function (err, response, body) {
@@ -186,7 +186,7 @@ module.exports = function (request, dateFormat) {
     function dropTransactions() {
         var options = {
             method: 'GET',
-            uri: `http://${process.env.TRANSACTIONS_ADDRESS}:${process.env.TRANSACTIONS_PORT}${process.env.DROP_TRANSACTIONS_ENDPOINT}`,
+            uri: `http://${process.env.TRANSACTIONS_SERVICE_HOST}:${process.env.TRANSACTIONS_SERVICE_PORT}${process.env.DROP_TRANSACTIONS_ENDPOINT}`,
             json: true
         };
         request.get(options, function (err, response, body) {
@@ -197,7 +197,7 @@ module.exports = function (request, dateFormat) {
     function dropAccounts() {
         var options = {
             method: 'GET',
-            uri: `http://${process.env.ACCOUNTS_ADDRESS}:${process.env.ACCOUNTS_PORT}${process.env.DROP_ACCOUNTS_ENDPOINT}`,
+            uri: `http://${process.env.ACCOUNTS_SERVICE_HOST}:${process.env.ACCOUNTS_SERVICE_PORT}${process.env.DROP_ACCOUNTS_ENDPOINT}`,
             json: true
         };
         request.get(options, function (err, response, body) {
@@ -210,7 +210,7 @@ module.exports = function (request, dateFormat) {
         return new Promise(function (resolve, reject) {
             var options = {
                 method: 'GET',
-                uri: `http://${process.env.AUTHENTICATION_ADDRESS}:${process.env.AUTHENTICATION_PORT}${process.env.GET_USERS_ENDPOINT}`,
+                uri: `http://${process.env.AUTHENTICATION_SERVICE_HOST}:${process.env.AUTHENTICATION_SERVICE_PORT}${process.env.GET_USERS_ENDPOINT}`,
                 json: true
             };
             request.get(options, function (err, response, body) {
