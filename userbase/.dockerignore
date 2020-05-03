@@ -1,0 +1,10 @@
+node_modules/
+test/
+.bluemix/
+.dockerignore
+.gitignore
+.env.example
+Dockerfile
+Makefile
+node_modules/
+test/
