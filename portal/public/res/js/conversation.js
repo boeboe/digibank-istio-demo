@@ -8,12 +8,12 @@ var ConversationPanel = (function() {
     selectors: {
       chatBox: '#scrollingChat',
       fromUser: '.from-user',
-      fromWatson: '.from-watson',
+      fromSlack: '.from-slack',
       latest: '.latest'
     },
     authorTypes: {
       user: 'user',
-      watson: 'watson'
+      slack: 'slack'
     }
   };
 
@@ -41,7 +41,7 @@ var ConversationPanel = (function() {
     var currentResponsePayloadSetter = Api.setResponsePayload;
     Api.setResponsePayload = function(newPayloadStr) {
       currentResponsePayloadSetter.call(Api, newPayloadStr);
-      displayMessage(JSON.parse(newPayloadStr), settings.authorTypes.watson);
+      displayMessage(JSON.parse(newPayloadStr), settings.authorTypes.slack);
     };
   }
 
@@ -112,7 +112,7 @@ var ConversationPanel = (function() {
     Common.fireEvent(input, 'input');
   }
 
-  // Display a user or Watson message that has just been sent/received
+  // Display a user or Slack message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.input && newPayload.input.text)
@@ -122,7 +122,7 @@ var ConversationPanel = (function() {
       var messageDivs = buildMessageDomElements(newPayload, isUser);
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
       var previousLatest = chatBoxElement.querySelectorAll((isUser
-              ? settings.selectors.fromUser : settings.selectors.fromWatson)
+              ? settings.selectors.fromUser : settings.selectors.fromSlack)
               + settings.selectors.latest);
       // Previous "latest" message is no longer the most recent
       if (previousLatest) {
@@ -141,13 +141,13 @@ var ConversationPanel = (function() {
     }
   }
 
-  // Checks if the given typeValue matches with the user "name", the Watson "name", or neither
-  // Returns true if user, false if Watson, and null if neither
-  // Used to keep track of whether a message was from the user or Watson
+  // Checks if the given typeValue matches with the user "name", the Slack "name", or neither
+  // Returns true if user, false if Slack, and null if neither
+  // Used to keep track of whether a message was from the user or Slack
   function isUserMessage(typeValue) {
     if (typeValue === settings.authorTypes.user) {
       return true;
-    } else if (typeValue === settings.authorTypes.watson) {
+    } else if (typeValue === settings.authorTypes.slack) {
       return false;
     }
     return null;
@@ -168,9 +168,9 @@ var ConversationPanel = (function() {
           'tagName': 'div',
           'classNames': ['segments'],
           'children': [{
-            // <div class='from-user/from-watson latest'>
+            // <div class='from-user/from-slack latest'>
             'tagName': 'div',
-            'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
+            'classNames': [(isUser ? 'from-user' : 'from-slack'), 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
             'children': [{
               // <div class='message-inner'>
               'tagName': 'div',
@@ -192,9 +192,9 @@ var ConversationPanel = (function() {
 
   // Scroll to the bottom of the chat window (to the most recent messages)
   // Note: this method will bring the most recent user message into view,
-  //   even if the most recent message is from Watson.
+  //   even if the most recent message is from Slack.
   //   This is done so that the "context" of the conversation is maintained in the view,
-  //   even if the Watson message is long.
+  //   even if the Slack message is long.
   function scrollToChatBottom() {
     var scrollingChat = document.querySelector('#scrollingChat');
 

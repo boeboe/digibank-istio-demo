@@ -29,16 +29,14 @@ var Api = (function() {
   };
 
   // Send a message request to the server
-  function sendRequest(text, context) {
+  function sendRequest(text, user) {
     // Build request payload
-    var payloadToWatson = {};
+    var payloadToSlack = {};
     if (text) {
-      payloadToWatson.input = {
-        text: text
-      };
+      payloadToSlack.message = text
     }
-    if (context) {
-      payloadToWatson.context = context;
+    if (user) {
+      payloadToSlack.user = user;
     }
 
     // Built http request
@@ -51,10 +49,10 @@ var Api = (function() {
       }
     };
 
-    var params = JSON.stringify(payloadToWatson);
+    var params = JSON.stringify(payloadToSlack);
     // Stored in variable (publicly visible through Api.getRequestPayload)
     // to be used throughout the application
-    if (Object.getOwnPropertyNames(payloadToWatson).length !== 0) {
+    if (Object.getOwnPropertyNames(payloadToSlack).length !== 0) {
       Api.setRequestPayload(params);
     }
 

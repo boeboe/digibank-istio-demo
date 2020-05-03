@@ -16,8 +16,8 @@ app.all('*', function (req, res, next) {
 app.post('/api/message', function (req, res) {
     res.header("Content-Type", "application/json");
     var payload = {
-        user: req.body.user || {},
-        message: req.body.message || {}
+        message: req.body.message || {},
+        user: req.body.user || ""
     };
 
     console.log(payload);
@@ -32,7 +32,7 @@ function sendToSlack (s, user) {
 	var payload = {
 		text: s
 	};
-	if (user !== undefined) {
+	if (user !== undefined && user !== "") {
 		payload.username = user;
 	}
 	payload.icon_emoji = ":ghost:";

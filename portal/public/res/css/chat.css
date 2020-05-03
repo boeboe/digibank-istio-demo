@@ -118,7 +118,7 @@
   border-top-right-radius: 1.25rem;
 }
 
-.from-watson .message-inner {
+.from-slack .message-inner {
   position: relative;
   border-radius: 1.5625rem;
   font-size: 1rem;
@@ -127,16 +127,16 @@
   line-height: 1.3125rem;
 }
 
-.from-watson.latest .message-inner {
+.from-slack.latest .message-inner {
   color: #323232;
 }
 
-.from-watson p {
+.from-slack p {
   margin: 0.3125rem;
   padding: 0 1.25rem;
 }
 
-.from-watson.latest.top p:before {
+.from-slack.latest.top p:before {
   content: ".";
   color: #d24142;
   background-image: url("images/marker.png");
