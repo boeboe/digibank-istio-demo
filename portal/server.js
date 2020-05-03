@@ -33,7 +33,7 @@ require('./routes/bills')(app, request);
 require('./routes/accounts')(app, request);
 require('./routes/transactions')(app, request);
 require('./routes/support')(app, request);
-require('./health')(app);
+require('./routes/health')(app);
 
 var port = process.env.PORT;
 

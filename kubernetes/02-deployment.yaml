@@ -194,7 +194,7 @@ spec:
       containers:
       - name: "portal"
         image: "boeboe/digibank-portal-svc"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health
