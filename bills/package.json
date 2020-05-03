@@ -1,7 +1,7 @@
 {
-  "name": "innovate-bills",
+  "name": "digibank-bills-svc",
   "version": "1.0.0",
-  "description": "Innovate: Digital Bank",
+  "description": "Aspen Mesh Demo -  Digital Bank Microservices",
   "private": true,
   "engines": {
     "node": "^13.6.0"

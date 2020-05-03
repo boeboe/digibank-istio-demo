@@ -1,8 +1,8 @@
-module.exports = function (app, request, ports) {
+module.exports = function (app, request) {
     app.post('/endpoints/login', function (req, res) {
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${ports.authentication}${process.env.LOGIN_ENDPOINT}`,
+            uri: `${req.protocol}://${req.hostname}:${process.env.AUTHENTICATION_PORT}${process.env.LOGIN_ENDPOINT}`,
             body: req.body,
             json: true
         };
@@ -21,7 +21,7 @@ module.exports = function (app, request, ports) {
         console.log(req);
         var options = {
             method: 'POST',
-            uri: `${req.protocol}://${req.hostname}:${ports.authentication}${process.env.SIGNUP_ENDPOINT}`,
+            uri: `${req.protocol}://${req.hostname}:${process.env.AUTHENTICATION_PORT}${process.env.SIGNUP_ENDPOINT}`,
             body: req.body,
             json: true
         };

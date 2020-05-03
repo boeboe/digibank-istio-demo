@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config({silent: true, path: `${__dirname}/.env`});
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -7,8 +6,6 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const mongostore = require('connect-mongo')(session);
 const request = require('request');
-
-const config = require(`${__dirname}/config`)[process.env.NODE_ENV];
 
 var app = express();
 
@@ -31,15 +28,15 @@ app.use(session({
 }));
 
 require('./routes/auth')(app);
-require('./routes/user')(app, request, config.ports);
-require('./routes/bills')(app, request, config.ports);
-require('./routes/accounts')(app, request, config.ports);
-require('./routes/transactions')(app, request, config.ports);
-require('./routes/support')(app, request, config.ports);
+require('./routes/user')(app, request);
+require('./routes/bills')(app, request);
+require('./routes/accounts')(app, request);
+require('./routes/transactions')(app, request);
+require('./routes/support')(app, request);
 
-var port = 3100;
+var port = process.env.PORT;
 
-console.log(`Running on ${process.env.BASE_PATH}:${port}, connecting to ${process.env.MONGO_URL}`)
+console.log(`Running on ${port}, connecting to ${process.env.MONGO_URL}`)
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true , useUnifiedTopology: true },
     function (ignore, connection) {
