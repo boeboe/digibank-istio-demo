@@ -47,7 +47,9 @@ app.post('/api/transactions/get', function (req, res) {
 });
 
 app.get('/api/transactions/drop', function (req, res) {
-    transactions.collection.drop();
+    transactions.collection.drop(function (err){
+        if (err && err.errmsg === 'ns not found') console.warn('transactions collection may not exists!');
+    });
     res.status(200).send({'message': 'Done!'});
 });
 

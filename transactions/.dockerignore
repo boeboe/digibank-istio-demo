@@ -1,9 +1,6 @@
-node_modules/
-test/
-.bluemix/
 .dockerignore
 .gitignore
-.env.example
+env.list
 Dockerfile
 Makefile
 node_modules/

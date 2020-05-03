@@ -46,7 +46,9 @@ app.post('/api/bills/get', function (req, res) {
 });
 
 app.get('/api/bills/drop', function (req, res) {
-    bills.collection.drop();
+    bills.collection.drop(function (err){
+        if (err && err.errmsg === 'ns not found') console.warn('bills collection may not exists!');
+    });
     res.status(200).send({'message': 'Done!'});
 });
 
