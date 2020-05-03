@@ -6,6 +6,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: mongo
+    version: latest
 spec:
   replicas: 1
   template:
@@ -46,7 +47,7 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: mongo
+          claimName: mongo-pvc
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -55,6 +56,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: "accounts"
+    version: 1.0.0
 spec:
   replicas: 1
   strategy:
@@ -70,7 +72,7 @@ spec:
     spec:
       containers:
       - name: "accounts"
-        image: "boeboe/digibank-accounts-svc"
+        image: "boeboe/digibank-accounts-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -96,6 +98,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: "authentication"
+    version: 1.0.0
 spec:
   replicas: 1
   strategy:
@@ -111,7 +114,7 @@ spec:
     spec:
       containers:
       - name: "authentication"
-        image: "boeboe/digibank-authentication-svc"
+        image: "boeboe/digibank-authentication-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -137,6 +140,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: "bills"
+    version: 1.0.0
 spec:
   replicas: 1
   strategy:
@@ -152,7 +156,7 @@ spec:
     spec:
       containers:
       - name: "bills"
-        image: "boeboe/digibank-bills-svc"
+        image: "boeboe/digibank-bills-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -178,6 +182,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: "portal"
+    version: 1.0.0
 spec:
   replicas: 1
   strategy:
@@ -193,7 +198,7 @@ spec:
     spec:
       containers:
       - name: "portal"
-        image: "boeboe/digibank-portal-svc"
+        image: "boeboe/digibank-portal-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -325,7 +330,7 @@ spec:
     spec:
       containers:
       - name: "support"
-        image: "boeboe/digibank-support-svc"
+        image: "boeboe/digibank-support-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -366,7 +371,7 @@ spec:
     spec:
       containers:
       - name: "transactions"
-        image: "boeboe/digibank-transactions-svc"
+        image: "boeboe/digibank-transactions-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -392,6 +397,7 @@ metadata:
   namespace: "digibank"
   labels:
     app: "userbase"
+    version: 1.0.0
 spec:
   replicas: 1
   strategy:
@@ -407,7 +413,7 @@ spec:
     spec:
       containers:
       - name: "userbase"
-        image: "boeboe/digibank-userbase-svc"
+        image: "boeboe/digibank-userbase-svc:1.0.0"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
