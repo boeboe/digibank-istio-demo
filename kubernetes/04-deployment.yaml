@@ -2,7 +2,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "mongo-deployment"
+  name: "mongo"
   labels:
     app: "mongo"
     version: "latest"
@@ -52,7 +52,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "accounts-deployment"
+  name: "accounts"
   labels:
     app: "accounts"
     version: 1.0.0
@@ -103,7 +103,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "authentication-deployment"
+  name: "authentication"
   labels:
     app: "authentication"
     version: 1.0.0
@@ -126,7 +126,7 @@ spec:
           image: "boeboe/digibank-authentication-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-authentication"
+            - name: "http-auth"
               containerPort: 3200
           livenessProbe:
             httpGet:
@@ -154,7 +154,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "bills-deployment"
+  name: "bills"
   labels:
     app: "bills"
     version: 1.0.0
@@ -205,7 +205,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "portal-deployment"
+  name: "portal"
   labels:
     app: "portal"
     version: 1.0.0
@@ -347,7 +347,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "support-deployment"
+  name: "support"
   labels:
     app: "support"
     version: 1.0.0
@@ -370,7 +370,7 @@ spec:
           image: "boeboe/digibank-support-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-accounts"
+            - name: "http-support"
               containerPort: 4000
           livenessProbe:
             httpGet:
@@ -403,7 +403,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "transactions-deployment"
+  name: "transactions"
   labels:
     app: "transactions"
     version: 1.0.0
@@ -426,7 +426,7 @@ spec:
           image: "boeboe/digibank-transactions-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-accounts"
+            - name: "http-trans"
               containerPort: 3600
           livenessProbe:
             httpGet:
@@ -454,7 +454,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "userbase-deployment"
+  name: "userbase"
   labels:
     app: "userbase"
     version: 1.0.0
@@ -477,7 +477,7 @@ spec:
           image: "boeboe/digibank-userbase-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-accounts"
+            - name: "http-userbase"
               containerPort: 4200
           livenessProbe:
             httpGet:

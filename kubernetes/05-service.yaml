@@ -40,7 +40,7 @@ spec:
   ports:
     - name: http-authentication
       port: 3200
-      targetPort: http-authentication
+      targetPort: http-auth
   selector:
     app: "authentication"
 ---
@@ -100,7 +100,7 @@ spec:
   ports:
     - name: http-transactions
       port: 3600
-      targetPort: http-transactions
+      targetPort: http-trans
   selector:
     app: "transactions"
 ---
