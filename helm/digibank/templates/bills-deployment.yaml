@@ -1,0 +1,52 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{ .Values.bills.name }}-deployment"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.bills.name }}"
+    version: "{{ .Values.bills.version }}"
+spec:
+  replicas: {{ .Values.bills.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.bills.name }}"
+        version: "{{ .Values.bills.version }}"
+    spec:
+      containers:
+        - name: "{{ .Values.bills.name }}"
+          image: "{{ .Values.bills.image }}:{{ .Values.bills.version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: "http-{{ .Values.bills.name }}"
+              containerPort: {{ .Values.bills.servicePort }} 
+          livenessProbe:
+            httpGet:
+              path: "{{ .Values.livenessProbe.endpointPath}}"
+              port: {{ .Values.bills.servicePort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+          readinessProbe:
+            httpGet:
+              path: "{{ .Values.readinessProbe.endpointPath}}"
+              port: {{ .Values.bills.servicePort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+          resources:
+            requests:
+              cpu: "{{ .Values.image.resources.requests.cpu }}"
+              memory: "{{ .Values.image.resources.requests.memory }}"
+          env:
+            - name: MONGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: mongoUrl

@@ -1,0 +1,52 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{ .Values.transactions.name }}-deployment"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.transactions.name }}"
+    version: "{{ .Values.transactions.version }}"
+spec:
+  replicas: {{ .Values.transactions.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.transactions.name }}"
+        version: "{{ .Values.transactions.version }}"
+    spec:
+      containers:
+        - name: "{{ .Values.transactions.name }}"
+          image: "{{ .Values.transactions.image }}:{{ .Values.transactions.version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: "http-{{ .Values.transactions.name }}"
+              containerPort: {{ .Values.transactions.servicePort }} 
+          livenessProbe:
+            httpGet:
+              path: "{{ .Values.livenessProbe.endpointPath}}"
+              port: {{ .Values.transactions.servicePort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+          readinessProbe:
+            httpGet:
+              path: "{{ .Values.readinessProbe.endpointPath}}"
+              port: {{ .Values.transactions.servicePort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+          resources:
+            requests:
+              cpu: "{{ .Values.image.resources.requests.cpu }}"
+              memory: "{{ .Values.image.resources.requests.memory }}"
+          env:
+            - name: MONGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: mongoUrl

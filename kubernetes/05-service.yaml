@@ -3,14 +3,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "mongo"
-  namespace: "digibank"
   labels:
     app: "mongo"
+    version: "latest"
 spec:
   ports:
     - name: tcp-mongo
       port: 27017
-      targetPort: 27017
+      targetPort: tcp-mongo
   selector:
     app: "mongo"
 ---
@@ -18,14 +18,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "accounts"
-  namespace: "digibank"
   labels:
     app: "accounts"
+    version: 1.0.0
 spec:
   ports:
     - name: http-accounts
       port: 3400
-      targetPort: 3400
+      targetPort: http-accounts
   selector:
     app: "accounts"
 ---
@@ -33,14 +33,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "authentication"
-  namespace: "digibank"
   labels:
     app: "authentication"
+    version: 1.0.0
 spec:
   ports:
     - name: http-authentication
       port: 3200
-      targetPort: 3200
+      targetPort: http-authentication
   selector:
     app: "authentication"
 ---
@@ -48,14 +48,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "bills"
-  namespace: "digibank"
   labels:
     app: "bills"
+    version: 1.0.0
 spec:
   ports:
     - name: http-bills
       port: 3800
-      targetPort: 3800
+      targetPort: http-bills
   selector:
     app: "bills"
 ---
@@ -63,14 +63,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "portal"
-  namespace: "digibank"
   labels:
     app: "portal"
+    version: 1.0.0
 spec:
   ports:
     - name: http-portal
       port: 3000
-      targetPort: 3000
+      targetPort: http-portal
   selector:
     app: "portal"
 ---
@@ -78,14 +78,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "support"
-  namespace: "digibank"
   labels:
     app: "support"
+    version: 1.0.0
 spec:
   ports:
     - name: http-support
       port: 4000
-      targetPort: 4000
+      targetPort: http-support
   selector:
     app: "support"
 ---
@@ -93,14 +93,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "transactions"
-  namespace: "digibank"
   labels:
     app: "transactions"
+    version: 1.0.0
 spec:
   ports:
     - name: http-transactions
       port: 3600
-      targetPort: 3600
+      targetPort: http-transactions
   selector:
     app: "transactions"
 ---
@@ -108,13 +108,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "userbase"
-  namespace: "digibank"
   labels:
     app: "userbase"
+    version: 1.0.0
 spec:
   ports:
     - name: http-userbase
       port: 4200
-      targetPort: 4200
+      targetPort: http-userbase
   selector:
     app: "userbase"

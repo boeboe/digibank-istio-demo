@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.portal.name }}"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.portal.name }}"
+    version: "{{ .Values.portal.version }}"
+spec:
+  ports:
+    - name: "http-{{ .Values.portal.name }}"
+      port: {{ .Values.portal.servicePort }}
+      targetPort: "http-{{ .Values.portal.name }}"
+  selector:
+    app: "{{ .Values.portal.name }}"
+
+{{- if .Values.portal.nodePortEnabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.portal.name }}-nodeport"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.portal.name }}"
+    version: "{{ .Values.portal.version }}"
+spec:
+  ports:
+    - name: "http-{{ .Values.portal.name }}"
+      port: {{ .Values.portal.servicePort }}
+      nodePort: {{ .Values.portal.serviceNodePort }}
+      targetPort: "http-{{ .Values.portal.name }}"
+  selector:
+    app: "{{ .Values.portal.name }}"
+  type: NodePort
+{{- end -}}

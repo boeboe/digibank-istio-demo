@@ -2,15 +2,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "digibank-configmap"
-  namespace: "digibank"
+  name: "{{ .Chart.Name }}-configmap"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Chart.Name }}"
+    version: "{{ .Chart.Version }}"
 data:
   ##### Environment variables #####
-  mongoUrl: "mongodb://mongo:27017/admin"
-  currency: "EUR"
-  sessionSecret: "w3hMHPfe4jK21UHYY0Ph"
-  slackBotToken: "xoxb-YOURTOKEN-NOT-IN-GITHUB"
-  slackChannelId: "C012X5BKR7F"
+  mongoUrl: "{{ .Values.config.mongoUrl }}"
+  currency: "{{ .Values.config.currency }}"
+  sessionSecret: "{{ .Values.config.sessionSecret }}"
+  slackBotToken: "{{ .Values.config.slackBotToken }}"
+  slackChannelId: "{{ .Values.config.slackChannelId }}"
 
   ##### Accounts #####
   createAccountEndpoint: "/api/accounts/create"

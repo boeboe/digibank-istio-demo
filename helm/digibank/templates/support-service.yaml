@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.support.name }}"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.support.name }}"
+    version: "{{ .Values.support.version }}"
+spec:
+  ports:
+    - name: "http-{{ .Values.support.name }}"
+      port: {{ .Values.support.servicePort }}
+      targetPort: "http-{{ .Values.support.name }}"
+  selector:
+    app: "{{ .Values.support.name }}"

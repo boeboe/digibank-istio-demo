@@ -1,0 +1,92 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{ .Values.userbase.name }}-deployment"
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+    app: "{{ .Values.userbase.name }}"
+    version: "{{ .Values.userbase.version }}"
+spec:
+  replicas: {{ .Values.userbase.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.userbase.name }}"
+        version: "{{ .Values.userbase.version }}"
+    spec:
+      containers:
+        - name: "{{ .Values.userbase.name }}"
+          image: "{{ .Values.userbase.image }}:{{ .Values.userbase.version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: "http-{{ .Values.userbase.name }}"
+              containerPort: {{ .Values.userbase.servicePort }} 
+          livenessProbe:
+            httpGet:
+              path: "{{ .Values.livenessProbe.endpointPath}}"
+              port: {{ .Values.userbase.servicePort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+          readinessProbe:
+            httpGet:
+              path: "{{ .Values.readinessProbe.endpointPath}}"
+              port: {{ .Values.userbase.servicePort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+          resources:
+            requests:
+              cpu: "{{ .Values.image.resources.requests.cpu }}"
+              memory: "{{ .Values.image.resources.requests.memory }}"
+          env:
+            ##### Environment variables #####
+            - name: MONGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: mongoUrl
+            - name: CURRENCY
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: currency
+            ##### Accounts #####
+            - name: DROP_ACCOUNTS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: dropAccountsEndpoint
+            ##### Authentication #####
+            - name: GET_USERS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: getUsersEndpoint
+            ##### Bills #####
+            - name: UPSERT_BILL_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: upsertBillEndpoint
+            - name: DROP_BILLS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: dropBillsEndpoint
+            ##### Transactions #####
+            - name: CREATE_TRANSACTION_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: createTransactionEndpoint
+            - name: DROP_TRANSACTIONS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Chart.Name }}-configmap"
+                  key: dropTransactionsEndpoint

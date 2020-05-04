@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: 1.0.0
+description: A Helm chart for digibank microservice demo
+engine: gotpl
+icon: https://raw.githubusercontent.com/CloudDevOpsEMEA/digibank-microservice-demo/master/portal/public/res/img/logo.png
+keywords:
+  - istio
+  - aspenmesh
+  - digibank
+  - demo
+maintainers:
+  - name: Bart Van Bos
+    email: b.vanbos@F5.com
+name: digibank
+sources: 
+  - https://github.com/CloudDevOpsEMEA/digibank-microservice-demo
+type: application
+version: 1.0.0
