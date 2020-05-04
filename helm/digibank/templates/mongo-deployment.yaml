@@ -21,6 +21,8 @@ spec:
       labels:
         app: "{{ .Values.mongo.name }}"
         version: "{{ .Values.mongo.version }}"
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "{{ .Values.mongo.name }}"

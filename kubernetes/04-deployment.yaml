@@ -13,6 +13,8 @@ spec:
       labels:
         app: mongo
         version: latest
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: mongo
@@ -69,6 +71,8 @@ spec:
       labels:
         app: "accounts"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "accounts"
@@ -120,6 +124,8 @@ spec:
       labels:
         app: "authentication"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "authentication"
@@ -171,6 +177,8 @@ spec:
       labels:
         app: "bills"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "bills"
@@ -222,6 +230,8 @@ spec:
       labels:
         app: "portal"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "portal"
@@ -364,6 +374,8 @@ spec:
       labels:
         app: "support"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "support"
@@ -420,6 +432,8 @@ spec:
       labels:
         app: "transactions"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "transactions"
@@ -471,6 +485,8 @@ spec:
       labels:
         app: "userbase"
         version: 1.0.0
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "userbase"

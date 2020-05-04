@@ -20,6 +20,8 @@ spec:
       labels:
         app: "{{ .Values.transactions.name }}"
         version: "{{ .Values.transactions.version }}"
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "{{ .Values.transactions.name }}"

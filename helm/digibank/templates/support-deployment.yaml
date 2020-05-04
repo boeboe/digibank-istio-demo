@@ -20,6 +20,8 @@ spec:
       labels:
         app: "{{ .Values.support.name }}"
         version: "{{ .Values.support.version }}"
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
         - name: "{{ .Values.support.name }}"
