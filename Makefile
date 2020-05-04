@@ -8,9 +8,12 @@ help: ## This help.
 
 .DEFAULT_GOAL := help
 
+NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
-# DOCKER TASKS
+########################
+##### DOCKER TASKS #####
+########################
 
 build: ## Build all the containers
 		cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) build
@@ -106,15 +109,27 @@ stop: ## Stop and remove all running container
 run: ## Run the full demo with docker-compose
 		docker-compose up
 
+############################
+##### KUBERNETES TASKS #####
+############################
+
 kubernetes_install: ## Install digibank application using kubectl
 		kubectl apply -f ./kubernetes -namespace ${NAMESPACE}
 
 kubernetes_remove: ## Remove digibank application using kubectl
 		kubectl delete -f ./kubernetes -namespace ${NAMESPACE}
 
+######################
+##### HELM TASKS #####
+######################
+
 helm_install: ## Install digibank application using helm
 		kubectl apply -f ./helm/namespace.yaml
 		helm install digibank ./helm/digibank --namespace ${NAMESPACE} --values ./helm/digibank/values.yaml
+
+helm_upgrade: ## Upgrade digibank application using helm
+		kubectl apply -f ./helm/namespace.yaml
+		helm upgrade digibank ./helm/digibank --namespace ${NAMESPACE} --values ./helm/digibank/values.yaml
 
 helm_remove: ## Remove digibank application using helm
 		helm uninstall digibank --namespace ${NAMESPACE}
