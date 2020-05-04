@@ -78,7 +78,6 @@ $(document).ready(function() {
     }
     else if (http.readyState === 4 && http.status === 200 && http.responseText) {
       var response = JSON.parse(http.responseText)
-      console.log('response >>>> ', response)
       uuid = response.uuid
       http.open('POST', billsEndpoint, true);
       http.setRequestHeader('Content-type', 'application/json');

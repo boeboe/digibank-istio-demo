@@ -101,3 +101,6 @@ stop: ## Stop and remove all running container
 		cd transactions && $(MAKE) stop 2>/dev/null || true
 		cd userbase && $(MAKE) stop 2>/dev/null || true
 		docker stop mongo 2>/dev/null ; docker rm mongo 2>/dev/null || true
+
+run: ## Run the full demo with docker-compose
+		docker-compose up
