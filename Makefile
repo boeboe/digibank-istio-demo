@@ -114,10 +114,10 @@ run: ## Run the full demo with docker-compose
 ############################
 
 kubernetes_install: ## Install digibank application using kubectl
-		kubectl apply -f ./kubernetes -namespace ${NAMESPACE}
+		kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
 
 kubernetes_remove: ## Remove digibank application using kubectl
-		kubectl delete -f ./kubernetes -namespace ${NAMESPACE}
+		kubectl delete -f ./kubernetes --namespace ${NAMESPACE}
 
 ######################
 ##### HELM TASKS #####
