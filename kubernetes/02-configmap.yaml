@@ -9,7 +9,8 @@ data:
   mongoUrl: "mongodb://mongo:27017/admin"
   currency: "EUR"
   sessionSecret: "w3hMHPfe4jK21UHYY0Ph"
-  slackWebhook: "https://hooks.slack.com/services/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"
+  slackBotToken: "xoxb-YOURTOKEN-NOT-IN-GITHUB"
+  slackChannelId: "C012X5BKR7F"
 
   ##### Accounts #####
   createAccountEndpoint: "/api/accounts/create"

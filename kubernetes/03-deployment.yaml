@@ -343,11 +343,16 @@ spec:
             cpu: 300m
             memory: 512Mi
         env:
-          - name: SLACK_WEBHOOK
+          - name: SLACK_BOT_TOKEN
             valueFrom:
               configMapKeyRef:
                 name: "digibank-configmap"
-                key: slackWebhook
+                key: slackBotToken
+          - name: SLACK_CHANNEL_ID
+            valueFrom:
+              configMapKeyRef:
+                name: "digibank-configmap"
+                key: slackChannelId
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
