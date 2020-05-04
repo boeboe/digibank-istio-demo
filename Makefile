@@ -113,7 +113,9 @@ kubernetes_remove: ## Remove digibank application using kubectl
 		kubectl delete -f ./kubernetes -namespace ${NAMESPACE}
 
 helm_install: ## Install digibank application using helm
-		helm install digibank ./helm/digibank --namespace ${NAMESPACE} --values ./helm/digibank/values-digibank-udf.yaml
+		kubectl apply -f ./helm/namespace.yaml
+		helm install digibank ./helm/digibank --namespace ${NAMESPACE} --values ./helm/digibank/values.yaml
 
 helm_remove: ## Remove digibank application using helm
 		helm uninstall digibank --namespace ${NAMESPACE}
+		kubectl delete -f ./helm/namespace.yaml
