@@ -9,9 +9,9 @@ metadata:
     version: "{{ .Values.portal.version }}"
 spec:
   ports:
-    - name: "http-{{ .Values.portal.name }}"
+    - name: "{{ .Values.portal.servicePortName }}"
       port: {{ .Values.portal.servicePort }}
-      targetPort: "http-{{ .Values.portal.name }}"
+      targetPort: "{{ .Values.portal.servicePortName }}"
   selector:
     app: "{{ .Values.portal.name }}"
 

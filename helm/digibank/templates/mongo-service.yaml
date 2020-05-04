@@ -10,9 +10,9 @@ metadata:
     version: "{{ .Values.mongo.version }}"
 spec:
   ports:
-    - name: "tcp-{{ .Values.mongo.name }}"
+    - name: "{{ .Values.mongo.servicePortName }}"
       port: {{ .Values.mongo.servicePort }}
-      targetPort: "tcp-{{ .Values.mongo.name }}"
+      targetPort: "{{ .Values.mongo.servicePortName }}"
   selector:
     app: "{{ .Values.mongo.name }}"
 {{- end -}}

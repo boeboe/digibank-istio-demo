@@ -41,6 +41,7 @@ mongo:
   version: latest
   image: "mvertes/alpine-mongo"
   servicePort: 27017
+  servicePortName: "tcp-mongo"
   pvSize: 2Gi
   pvAccessMode: "ReadWriteOnce"
 
@@ -50,6 +51,7 @@ accounts:
   image: "boeboe/digibank-accounts-svc"
   replicaCount: 1
   servicePort: 3400
+  servicePortName: "http-accounts"
 
 authentication:
   name: "authentication"
@@ -57,6 +59,7 @@ authentication:
   image: "boeboe/digibank-authentication-svc"
   replicaCount: 1
   servicePort: 3200
+  servicePortName: "http-auth"
 
 bills:
   name: "bills"
@@ -64,6 +67,7 @@ bills:
   image: "boeboe/digibank-bills-svc"
   replicaCount: 1
   servicePort: 3800
+  servicePortName: "http-bills"
 
 portal:
   name: "portal"
@@ -73,6 +77,7 @@ portal:
   servicePort: 3000
   nodePortEnabled: true
   serviceNodePort: 30300
+  servicePortName: "http-portal"
 
 support:
   name: "support"
@@ -80,6 +85,7 @@ support:
   image: "boeboe/digibank-support-svc"
   replicaCount: 1
   servicePort: 4000
+  servicePortName: "http-support"
 
 transactions:
   name: "transactions"
@@ -87,6 +93,7 @@ transactions:
   image: "boeboe/digibank-transactions-svc"
   replicaCount: 1
   servicePort: 3600
+  servicePortName: "http-trans"
 
 userbase:
   name: "userbase"
@@ -94,3 +101,4 @@ userbase:
   image: "boeboe/digibank-userbase-svc"
   replicaCount: 1
   servicePort: 4200
+  servicePortName: "http-userbase"

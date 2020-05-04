@@ -26,7 +26,7 @@ spec:
           image: "{{ .Values.accounts.image }}:{{ .Values.accounts.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "http-{{ .Values.accounts.name }}"
+            - name: "{{ .Values.accounts.servicePortName }}"
               containerPort: {{ .Values.accounts.servicePort }}
           livenessProbe:
             httpGet:

@@ -9,8 +9,8 @@ metadata:
     version: "{{ .Values.bills.version }}"
 spec:
   ports:
-    - name: "http-{{ .Values.bills.name }}"
+    - name: "{{ .Values.bills.servicePortName }}"
       port: {{ .Values.bills.servicePort }}
-      targetPort: "http-{{ .Values.bills.name }}"
+      targetPort: "{{ .Values.bills.servicePortName }}"
   selector:
     app: "{{ .Values.bills.name }}"

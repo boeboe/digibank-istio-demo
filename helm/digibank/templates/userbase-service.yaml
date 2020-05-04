@@ -9,8 +9,8 @@ metadata:
     version: "{{ .Values.userbase.version }}"
 spec:
   ports:
-    - name: "http-{{ .Values.userbase.name }}"
+    - name: "{{ .Values.userbase.servicePortName }}"
       port: {{ .Values.userbase.servicePort }}
-      targetPort: "http-{{ .Values.userbase.name }}"
+      targetPort: "{{ .Values.userbase.servicePortName }}"
   selector:
     app: "{{ .Values.userbase.name }}"

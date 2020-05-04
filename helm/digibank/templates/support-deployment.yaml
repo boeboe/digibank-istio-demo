@@ -26,7 +26,7 @@ spec:
           image: "{{ .Values.support.image }}:{{ .Values.support.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "http-{{ .Values.support.name }}"
+            - name: "{{ .Values.support.servicePortName }}"
               containerPort: {{ .Values.support.servicePort }} 
           livenessProbe:
             httpGet:

@@ -27,7 +27,7 @@ spec:
           image: "{{ .Values.mongo.image }}:{{ .Values.mongo.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "tcp-{{ .Values.mongo.name }}"
+            - name: "{{ .Values.mongo.servicePortName }}"
               containerPort: {{ .Values.mongo.servicePort }}
           livenessProbe:
             exec:
