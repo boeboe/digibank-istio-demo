@@ -9,8 +9,8 @@ metadata:
     version: "{{ .Values.accounts.version }}"
 spec:
   ports:
-    - name: name: "{{ .Values.accounts.servicePortName }}"
+    - name: "{{ .Values.accounts.servicePortName }}"
       port: {{ .Values.accounts.servicePort }}
-      targetPort: name: "{{ .Values.accounts.servicePortName }}"
+      targetPort: "{{ .Values.accounts.servicePortName }}"
   selector:
     app: "{{ .Values.accounts.name }}"

@@ -77,6 +77,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: "portal-svc-nodeport"
+  labels:
+    app: "portal"
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-portal
+      port: 3000
+      targetPort: http-portal
+      nodePort: 30303
+  selector:
+    app: "portal"
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: "support"
   labels:
     app: "support"

@@ -9,8 +9,8 @@ metadata:
     version: "{{ .Values.authentication.version }}"
 spec:
   ports:
-    - name: name: "{{ .Values.authentication.servicePortName }}"
+    - name: "{{ .Values.authentication.servicePortName }}"
       port: {{ .Values.authentication.servicePort }}
-      targetPort: name: "{{ .Values.authentication.servicePortName }}"
+      targetPort: "{{ .Values.authentication.servicePortName }}"
   selector:
     app: "{{ .Values.authentication.name }}"

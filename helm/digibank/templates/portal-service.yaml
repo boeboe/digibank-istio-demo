@@ -14,9 +14,8 @@ spec:
       targetPort: "{{ .Values.portal.servicePortName }}"
   selector:
     app: "{{ .Values.portal.name }}"
-
-{{- if .Values.portal.nodePortEnabled -}}
 ---
+{{- if .Values.portal.nodePortEnabled -}}
 apiVersion: v1
 kind: Service
 metadata:
