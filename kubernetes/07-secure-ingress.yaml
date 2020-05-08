@@ -69,9 +69,9 @@ kind: SecureIngress
 metadata:
   name: digibank-portal
 spec:
-  domainName: "www.digibank.com"
+  domainName: "aspen-mesh-secure-ingress.aspenmesh.svc"
   jwt:
-  - issuer: "admin@digibank.com"
+  - issuer: "admin@aspen-mesh-secure-ingress.aspenmesh.svc"
     jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
   exposedApplications:
   - applicationReference:
