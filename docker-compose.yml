@@ -10,7 +10,7 @@ services:
   digibank-accounts-svc:
     image: boeboe/digibank-accounts-svc
     env_file:
-      - ./accounts/env.list
+      - ./microservices/accounts/env.list
     ports:
       - "3400:3400"
     depends_on:
@@ -19,7 +19,7 @@ services:
   digibank-authentication-svc:
     image: boeboe/digibank-authentication-svc
     env_file:
-      - ./authentication/env.list
+      - ./microservices/authentication/env.list
     ports:
       - "3200:3200"
     depends_on:
@@ -28,7 +28,7 @@ services:
   digibank-bills-svc:
     image: boeboe/digibank-bills-svc
     env_file:
-      - ./bills/env.list
+      - ./microservices/bills/env.list
     ports:
       - "3800:3800"
     depends_on:
@@ -37,7 +37,7 @@ services:
   digibank-portal-svc:
     image: boeboe/digibank-portal-svc
     env_file:
-      - ./portal/env.list
+      - ./microservices/portal/env.list
     ports:
       - "3000:3000"
     depends_on:
@@ -51,7 +51,7 @@ services:
   digibank-support-svc:
     image: boeboe/digibank-support-svc
     env_file:
-      - ./support/env.list
+      - ./microservices/support/env.list
     ports:
       - "4000:4000"
     depends_on:
@@ -60,7 +60,7 @@ services:
   digibank-transactions-svc:
     image: boeboe/digibank-transactions-svc
     env_file:
-      - ./transactions/env.list
+      - ./microservices/transactions/env.list
     ports:
       - "3600:3600"
     depends_on:
@@ -69,7 +69,7 @@ services:
   digibank-userbase-svc:
     image: boeboe/digibank-userbase-svc
     env_file:
-      - ./userbase/env.list
+      - ./microservices/userbase/env.list
     ports:
       - "4200:4200"
     depends_on:

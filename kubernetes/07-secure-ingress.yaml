@@ -1,0 +1,47 @@
+apiVersion: policy.aspenmesh.io/v1alpha1
+kind: Application
+metadata:
+  name: digibank-portal
+spec:
+  inbound:
+    ports:
+    - number: 3000
+      protocol: HTTP
+      paths:
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /productpage
+      - expose:
+          public: true
+          jwtSecured: false
+        uri:
+          exact: /login
+      - expose:
+          public: true
+          jwtSecured: false
+        uri:
+          exact: /logout
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          prefix: /api/v1/products
+---
+apiVersion: policy.aspenmesh.io/v1alpha1
+kind: SecureIngress
+metadata:
+  name: digibank-portal
+spec:
+  domainName: "bookinfo.example.com"
+  jwt:
+  - issuer: "admin@example.com"
+    jwksUri: "https://auth.example.com/jwks.json"
+  exposedApplications:
+  - applicationReference:
+      name: productpage
+      namespace: default
+    serviceReference:
+      name: productpage
+      namespace: default
