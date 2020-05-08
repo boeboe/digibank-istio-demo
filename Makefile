@@ -11,6 +11,9 @@ help: ## This help.
 NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
+HYDRA_SECRETS_SYSTEM=lJmn8CfxU55MMdmuHcBsUhCmClL4qgIu
+HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
+
 ########################
 ##### DOCKER TASKS #####
 ########################
@@ -134,3 +137,40 @@ helm_upgrade: ## Upgrade digibank application using helm
 helm_remove: ## Remove digibank application using helm
 		helm uninstall digibank --namespace ${NAMESPACE}
 		kubectl delete -f ./helm/namespace.yaml
+
+
+#######################
+##### HYDRA TASKS #####
+#######################
+
+hydra_init_db: ## Initialise postgres dbn schema for hydra backend 
+		hydra migrate sql --yes ${HYDRA_DSN}
+
+hydra_run_backend: ## Start hydra backend
+		sudo docker run -d --net host \
+			-e SECRETS_SYSTEM=${HYDRA_SECRETS_SYSTEM} \
+			-e DSN=${HYDRA_DSN} \
+			-e URLS_SELF_ISSUER=https://10.1.1.4:4444 \
+			-e URLS_CONSENT=http://10.1.1.4:3000/consent \
+			-e URLS_LOGIN=http://10.1.1.4:3000/login \
+			--restart always \
+			--name hydra \
+			-d oryd/hydra:v1.5.0-alpine serve all
+
+hydra_run_consent_frontend: ## Start hydra frontend consent application
+		hydra clients create --endpoint https://10.1.1.4:4445 --skip-tls-verify --id digibank --secret digibank123 --grant-types authorization_code,refresh_token,client_credentials,implicit --response-types token,code,id_token  --scope hydra.consent 
+		sudo docker run -d --net host \
+			-p 9020:3000 \
+			-e HYDRA_URL=https://10.1.1.4:4444 \
+			-e HYDRA_CLIENT_ID="digibank" \
+			-e HYDRA_CLIENT_SECRET="digibank123" \
+			-e NODE_TLS_REJECT_UNAUTHORIZED=0 \
+			--name hydra-consent-app \
+			-d boeboe/hydra-consent-app-express
+
+hydra_install: hydra_init_db hydra_run_backend hydra_run_consent_frontend  ## Start all hydra setup components and configuration
+
+hydra_clean: ## Remove hydra setup components and configuration
+		hydra clients delete --endpoint https://10.1.1.4:4445 digibank --skip-tls-verify 2>/dev/null || true
+		sudo docker stop hydra ; sudo docker rm hydra 2>/dev/null || true
+		sudo docker stop hydra-consent-app ; sudo docker rm hydra-consent-app 2>/dev/null || true
