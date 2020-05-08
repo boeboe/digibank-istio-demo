@@ -1,7 +1,7 @@
 apiVersion: policy.aspenmesh.io/v1alpha1
 kind: Application
 metadata:
-  name: digibank-portal
+  name: digibank
 spec:
   inbound:
     ports:
@@ -12,36 +12,71 @@ spec:
           public: true
           jwtSecured: true
         uri:
-          exact: /productpage
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          exact: /login
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          exact: /logout
+          exact: /endpoints/accounts/activate
       - expose:
           public: true
           jwtSecured: true
         uri:
-          prefix: /api/v1/products
+          exact: /endpoints/accounts/get
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/accounts/transfer
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/auth
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/bills/get
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/bills/pay
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/login
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/logout
+      - expose:
+          public: true
+          jwtSecured: false
+        uri:
+          exact: /endpoints/signup
+      - expose:
+          public: true
+          jwtSecured: false
+        uri:
+          exact: /endpoints/support/chat
+      - expose:
+          public: true
+          jwtSecured: true
+        uri:
+          exact: /endpoints/transactions/get
 ---
 apiVersion: policy.aspenmesh.io/v1alpha1
 kind: SecureIngress
 metadata:
   name: digibank-portal
 spec:
-  domainName: "bookinfo.example.com"
+  domainName: "www.digibank.com"
   jwt:
-  - issuer: "admin@example.com"
-    jwksUri: "https://auth.example.com/jwks.json"
+  - issuer: "admin@digibank.com"
+    jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
   exposedApplications:
   - applicationReference:
-      name: productpage
-      namespace: default
+      name: digibank
+      namespace: digibank
     serviceReference:
-      name: productpage
-      namespace: default
+      name: portal
+      namespace: digibank
