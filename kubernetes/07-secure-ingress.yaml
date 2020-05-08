@@ -10,6 +10,11 @@ spec:
       paths:
       - expose:
           public: true
+          jwtSecured: false
+        uri:
+          exact: /
+      - expose:
+          public: true
           jwtSecured: true
         uri:
           exact: /endpoints/accounts/activate
