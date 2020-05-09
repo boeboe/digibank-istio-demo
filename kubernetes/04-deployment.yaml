@@ -21,7 +21,7 @@ spec:
           image: "mvertes/alpine-mongo"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: tcp-mongo
+            - name: mongo-db
               containerPort: 27017
           livenessProbe:
             exec:

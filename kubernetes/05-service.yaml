@@ -8,9 +8,9 @@ metadata:
     version: "latest"
 spec:
   ports:
-    - name: tcp-mongo
+    - name: mongo-db
       port: 27017
-      targetPort: tcp-mongo
+      targetPort: mongo-db
   selector:
     app: "mongo"
 ---
