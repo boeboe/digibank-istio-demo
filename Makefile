@@ -122,8 +122,7 @@ run: ## Run the full demo with docker-compose
 ##### KUBERNETES TASKS #####
 ############################
 
-##### Ingress certificates #####
-install_certificates: ## Installs the certificates for secure ingress
+install_certificates: ## Install the certificate for secure ingress
 	kubectl apply -f ${ISTIO_SYSTEM_NAMESPACE_SPEC}
 	kubectl create secret tls --namespace ${ISTIO_SYSTEM_NAMESPACE} digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
 
