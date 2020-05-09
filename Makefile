@@ -11,9 +11,6 @@ help: ## This help.
 NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
-ISTIO_SYSTEM_NAMESPACE=istio-system
-ISTIO_SYSTEM_NAMESPACE_SPEC=./kubernetes/namespace-istio-system.yaml
-
 PRIVATE_KEY_CERT=./kubernetes/private-key.pem
 WILDCARD_CERT=./kubernetes/wildcard-cert.pem
 
@@ -123,8 +120,7 @@ run: ## Run the full demo with docker-compose
 ############################
 
 install_certificate: ## Install the certificate for secure ingress
-	kubectl apply -f ${ISTIO_SYSTEM_NAMESPACE_SPEC}
-	kubectl create secret tls --namespace ${ISTIO_SYSTEM_NAMESPACE} digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
+	kubectl create secret tls --namespace istio-system digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
 
 kubernetes_install: ## Install digibank application using kubectl
 		kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
