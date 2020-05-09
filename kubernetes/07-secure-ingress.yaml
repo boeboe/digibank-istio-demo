@@ -72,11 +72,11 @@ spec:
 apiVersion: policy.aspenmesh.io/v1alpha1
 kind: SecureIngress
 metadata:
-  name: digibank-portal
+  name: digibank
 spec:
-  domainName: "aspen-mesh-secure-ingress.aspenmesh.svc"
+  domainName: "digibank.aspen-demo.org"
   jwt:
-  - issuer: "admin@aspen-mesh-secure-ingress.aspenmesh.svc"
+  - issuer: "admin@digibank.aspen-demo.org"
     jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
   exposedApplications:
   - applicationReference:
