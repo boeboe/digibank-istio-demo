@@ -83,7 +83,7 @@ metadata:
     version: 1.0.0
 spec:
   ports:
-    - name: http-portal
+    - name: nodeport-portal
       port: 3000
       targetPort: http-portal
       nodePort: 30303
