@@ -6,7 +6,7 @@ spec:
   inbound:
     ports:
     - number: 3000
-      protocol: HTTP
+      protocol: HTTPS
       paths:
       - expose:
           public: true
