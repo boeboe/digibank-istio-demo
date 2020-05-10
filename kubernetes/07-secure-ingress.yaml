@@ -17,7 +17,7 @@ spec:
           public: true
           jwtSecured: false
         uri:
-          prefix: "/*"
+          exact: "/*"
       # - expose:
       #     public: true
       #     jwtSecured: true
