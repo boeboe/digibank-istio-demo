@@ -77,7 +77,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: "portal-svc-nodeport"
+  name: "portal-nodeport"
   labels:
     app: "portal"
     version: 1.0.0
