@@ -12,12 +12,12 @@ spec:
           public: true
           jwtSecured: false
         uri:
-          prefix: /
+          prefix: "/"
       - expose:
           public: true
           jwtSecured: false
         uri:
-          regex: ".*"
+          prefix: "/*"
       # - expose:
       #     public: true
       #     jwtSecured: true
