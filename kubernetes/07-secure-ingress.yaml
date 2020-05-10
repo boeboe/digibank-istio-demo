@@ -12,62 +12,62 @@ spec:
           public: true
           jwtSecured: false
         uri:
-          exact: /
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/accounts/activate
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/accounts/get
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/accounts/transfer
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/auth
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/bills/get
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/bills/pay
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/login
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/logout
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          exact: /endpoints/signup
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          exact: /endpoints/support/chat
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/transactions/get
+          prefix: /
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/accounts/activate
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/accounts/get
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/accounts/transfer
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/auth
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/bills/get
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/bills/pay
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/login
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/logout
+      # - expose:
+      #     public: true
+      #     jwtSecured: false
+      #   uri:
+      #     exact: /endpoints/signup
+      # - expose:
+      #     public: true
+      #     jwtSecured: false
+      #   uri:
+      #     exact: /endpoints/support/chat
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/transactions/get
 ---
 apiVersion: policy.aspenmesh.io/v1alpha1
 kind: SecureIngress
