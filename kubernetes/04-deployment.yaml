@@ -21,7 +21,7 @@ spec:
           image: "mvertes/alpine-mongo"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: mongo-db
+            - name: mongo-port
               containerPort: 27017
           livenessProbe:
             exec:
@@ -79,7 +79,7 @@ spec:
           image: "boeboe/digibank-accounts-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-accounts"
+            - name: accounts-port
               containerPort: 3400
           livenessProbe:
             httpGet:
@@ -132,7 +132,7 @@ spec:
           image: "boeboe/digibank-authentication-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-auth"
+            - name: auth-port
               containerPort: 3200
           livenessProbe:
             httpGet:
@@ -185,7 +185,7 @@ spec:
           image: "boeboe/digibank-bills-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-bills"
+            - name: bills-port
               containerPort: 3800
           livenessProbe:
             httpGet:
@@ -238,7 +238,7 @@ spec:
           image: "boeboe/digibank-portal-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-portal"
+            - name: portal-port
               containerPort: 3000
           livenessProbe:
             httpGet:
@@ -382,7 +382,7 @@ spec:
           image: "boeboe/digibank-support-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-support"
+            - name: support-port
               containerPort: 4000
           livenessProbe:
             httpGet:
@@ -440,7 +440,7 @@ spec:
           image: "boeboe/digibank-transactions-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-trans"
+            - name: trans-port
               containerPort: 3600
           livenessProbe:
             httpGet:
@@ -493,7 +493,7 @@ spec:
           image: "boeboe/digibank-userbase-svc:1.0.0"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: "http-userbase"
+            - name: userbase-port
               containerPort: 4200
           livenessProbe:
             httpGet:
