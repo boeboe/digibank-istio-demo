@@ -17,7 +17,7 @@ spec:
       privateKey: sds
       serverCertificate: sds
     hosts:
-    - "digibank.aspen-demo.org"
+    - "digibank.aspen-demo.org:31390"
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -27,7 +27,7 @@ metadata:
   namespace: digibank
 spec:
   hosts:
-  - "digibank.aspen-demo.org"
+  - "digibank.aspen-demo.org:31390"
   gateways:
   - digibank
   http:
