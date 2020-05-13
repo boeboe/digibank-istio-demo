@@ -120,7 +120,8 @@ run: ## Run the full demo with docker-compose
 ############################
 
 install_certificate: ## Install the certificate for secure ingress
-	kubectl create secret tls --namespace aspenmesh digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
+	kubectl create secret tls --namespace istio-system digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
+	# kubectl create secret tls --namespace aspenmesh digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
 
 kubernetes_install: ## Install digibank application using kubectl
 		kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
