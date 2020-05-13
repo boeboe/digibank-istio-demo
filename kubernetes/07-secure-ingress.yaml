@@ -13,16 +13,16 @@ spec:
           jwtSecured: false
         uri:
           prefix: /
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          exact: /vendors/css/normalize.css
-      - expose:
-          public: true
-          jwtSecured: true
-        uri:
-          exact: /endpoints/accounts/activate
+      # - expose:
+      #     public: true
+      #     jwtSecured: false
+      #   uri:
+      #     exact: /vendors/css/normalize.css
+      # - expose:
+      #     public: true
+      #     jwtSecured: true
+      #   uri:
+      #     exact: /endpoints/accounts/activate
       # - expose:
       #     public: true
       #     jwtSecured: true
