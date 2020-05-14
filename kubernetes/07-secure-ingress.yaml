@@ -78,6 +78,8 @@ apiVersion: policy.aspenmesh.io/v1alpha1
 kind: SecureIngress
 metadata:
   name: digibank
+  annotations:
+    external-dns.alpha.kubernetes.io/target: 10.1.1.5
 spec:
   domainName: "digibank.aspen-demo.org"
   jwt:
