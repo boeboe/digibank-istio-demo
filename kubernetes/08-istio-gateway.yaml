@@ -3,6 +3,7 @@ kind: Gateway
 metadata:
   name: digibank
   annotations:
+    policy.aspenmesh.io/externaldns: "true"
     external-dns.alpha.kubernetes.io/target: 10.1.1.5
 spec:
   selector:
