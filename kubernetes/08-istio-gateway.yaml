@@ -20,7 +20,6 @@ spec:
       serverCertificate: sds
     hosts:
     - "digibank.aspen-demo.org"
-
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
