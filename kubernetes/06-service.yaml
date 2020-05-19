@@ -1,0 +1,120 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+    version: latest
+spec:
+  ports:
+    - name: mongo-db
+      port: 27017
+      targetPort: mongo-port
+  selector:
+    app: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts
+  labels:
+    app: accounts
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-accounts
+      port: 3400
+      targetPort: accounts-port
+  selector:
+    app: accounts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication
+  labels:
+    app: authentication
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-authentication
+      port: 3200
+      targetPort: auth-port
+  selector:
+    app: authentication
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bills
+  labels:
+    app: bills
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-bills
+      port: 3800
+      targetPort: bills-port
+  selector:
+    app: bills
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal
+  labels:
+    app: portal
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-portal
+      port: 3000
+      targetPort: portal-port
+  selector:
+    app: portal
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: support
+  labels:
+    app: support
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-support
+      port: 4000
+      targetPort: support-port
+  selector:
+    app: support
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transactions
+  labels:
+    app: transactions
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-transactions
+      port: 3600
+      targetPort: trans-port
+  selector:
+    app: transactions
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userbase
+  labels:
+    app: userbase
+    version: 1.0.0
+spec:
+  ports:
+    - name: http-userbase
+      port: 4200
+      targetPort: userbase-port
+  selector:
+    app: userbase
