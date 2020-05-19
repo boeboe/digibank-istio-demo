@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "digibank-configmap"
+  name: digibank-configmap
 data:
   ##### Environment variables #####
   mongoUrl: "mongodb://mongo:27017/admin"
