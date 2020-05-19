@@ -14,7 +14,7 @@ spec:
         app: mongo
         version: latest
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-mongo
       containers:
@@ -73,7 +73,7 @@ spec:
         app: accounts
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-accounts
       containers:
@@ -127,7 +127,7 @@ spec:
         app: authentication
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-authentication
       containers:
@@ -181,7 +181,7 @@ spec:
         app: bills
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-bills
       containers:
@@ -235,7 +235,7 @@ spec:
         app: portal
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-portal
       containers:
@@ -380,7 +380,7 @@ spec:
         app: support
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-support
       containers:
@@ -439,7 +439,7 @@ spec:
         app: transactions
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-transactions
       containers:
@@ -493,7 +493,7 @@ spec:
         app: userbase
         version: 1.0.0
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: true
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: digibank-userbase
       containers:
