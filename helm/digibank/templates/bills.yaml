@@ -1,11 +1,19 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: digibank-bills
+  labels:
+    account: bills
+
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "{{ .Values.bills.name }}-deployment"
+  name: bills-deployment
   labels:
-    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
-    app: "{{ .Values.bills.name }}"
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: bills
     version: "{{ .Values.bills.version }}"
 spec:
   replicas: {{ .Values.bills.replicaCount }}
@@ -18,18 +26,19 @@ spec:
   template:
     metadata:
       labels:
-        app: "{{ .Values.bills.name }}"
+        app: bills
         version: "{{ .Values.bills.version }}"
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
+      serviceAccountName: digibank-bills
       containers:
-        - name: "{{ .Values.bills.name }}"
+        - name: bills
           image: "{{ .Values.bills.image }}:{{ .Values.bills.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "{{ .Values.bills.servicePortName }}"
-              containerPort: {{ .Values.bills.servicePort }} 
+            - name: bills-port
+              containerPort: 3800
           livenessProbe:
             httpGet:
               path: "{{ .Values.livenessProbe.endpointPath}}"
@@ -50,5 +59,43 @@ spec:
             - name: MONGO_URL
               valueFrom:
                 configMapKeyRef:
-                  name: "{{ .Chart.Name }}-configmap"
+                  name: digibank-configmap
                   key: mongoUrl
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bills
+  labels:
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: bills
+    version: "{{ .Values.bills.version }}"
+spec:
+  ports:
+    - name: "{{ .Values.bills.servicePortName }}"
+      port: {{ .Values.bills.servicePort }}
+      targetPort: bills-port
+  selector:
+    app: bills
+
+---
+{{- if .Values.hpa.enabled -}}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+  name: bills-hpa-policy
+  app: bills
+  version: "{{ .Values.bills.version }}"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bills-deployment
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+{{- end -}}
+
+---

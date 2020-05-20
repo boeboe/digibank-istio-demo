@@ -1,12 +1,36 @@
 {{- if .Values.mongo.enabled -}}
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: digibank-mongo
+  labels:
+    account: mongo
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mongo-pvc
+  labels:
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: mongo
+    version: "{{ .Values.mongo.version }}"
+spec:
+  accessModes:
+    - "{{ .Values.mongo.pvAccessMode }}"
+  resources:
+    requests:
+      storage: "{{ .Values.mongo.pvSize }}"
+
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "{{ .Values.mongo.name }}-deployment"
+  name: mongo-deployment
   labels:
-    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
-    app: "{{ .Values.mongo.name }}"
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: mongo
     version: "{{ .Values.mongo.version }}"
 spec:
   replicas: 1
@@ -19,18 +43,19 @@ spec:
   template:
     metadata:
       labels:
-        app: "{{ .Values.mongo.name }}"
+        app: mongo
         version: "{{ .Values.mongo.version }}"
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
+      serviceAccountName: digibank-mongo
       containers:
-        - name: "{{ .Values.mongo.name }}"
+        - name: mongo
           image: "{{ .Values.mongo.image }}:{{ .Values.mongo.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "{{ .Values.mongo.servicePortName }}"
-              containerPort: {{ .Values.mongo.servicePort }}
+            - name: mongo-port
+              containerPort: 27017
           livenessProbe:
             exec:
               command:
@@ -48,14 +73,33 @@ spec:
             initialDelaySeconds: 5
             timeoutSeconds: 1
           volumeMounts:
-            - name: "{{ .Values.mongo.name }}-data"
+            - name: mongo-data
               mountPath: /data/db
           resources:
             requests:
               cpu: "{{ .Values.image.resources.requests.cpu }}"
               memory: "{{ .Values.image.resources.requests.memory }}"
       volumes:
-        - name: "{{ .Values.mongo.name }}-data"
+        - name: mongo-data
           persistentVolumeClaim:
-            claimName: "{{ .Values.mongo.name }}-pvc"
+            claimName: mongo-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: mongo
+    version: "{{ .Values.mongo.version }}"
+spec:
+  ports:
+    - name: "{{ .Values.mongo.servicePortName }}"
+      port: {{ .Values.mongo.servicePort }}
+      targetPort: mongo-port
+  selector:
+    app: mongo
+
+---
 {{- end -}}

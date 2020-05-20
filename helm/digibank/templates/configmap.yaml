@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ .Chart.Name }}-configmap"
+  name: digibank-configmap
   labels:
-    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
-    app: "{{ .Chart.Name }}"
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: digibank
     version: "{{ .Chart.Version }}"
 data:
   ##### Environment variables #####

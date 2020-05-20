@@ -1,11 +1,19 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: digibank-accounts
+  labels:
+    account: accounts
+
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "{{ .Values.accounts.name }}-deployment"
+  name: accounts-deployment
   labels:
-    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
-    app: "{{ .Values.accounts.name }}"
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: accounts
     version: "{{ .Values.accounts.version }}"
 spec:
   replicas: {{ .Values.accounts.replicaCount }}
@@ -18,18 +26,19 @@ spec:
   template:
     metadata:
       labels:
-        app: "{{ .Values.accounts.name }}"
+        app: accounts
         version: "{{ .Values.accounts.version }}"
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
+      serviceAccountName: digibank-accounts
       containers:
-        - name: "{{ .Values.accounts.name }}"
+        - name: accounts
           image: "{{ .Values.accounts.image }}:{{ .Values.accounts.version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: "{{ .Values.accounts.servicePortName }}"
-              containerPort: {{ .Values.accounts.servicePort }}
+            - name: accounts-port
+              containerPort: 3400
           livenessProbe:
             httpGet:
               path: "{{ .Values.livenessProbe.endpointPath}}"
@@ -50,5 +59,43 @@ spec:
             - name: MONGO_URL
               valueFrom:
                 configMapKeyRef:
-                  name: "{{ .Chart.Name }}-configmap"
+                  name: digibank-configmap
                   key: mongoUrl
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts
+  labels:
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    app: accounts
+    version: "{{ .Values.accounts.version }}"
+spec:
+  ports:
+    - name: "{{ .Values.accounts.servicePortName }}"
+      port: {{ .Values.accounts.servicePort }}
+      targetPort: accounts-port
+  selector:
+    app: accounts
+
+---
+{{- if .Values.hpa.enabled -}}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+  name: accounts-hpa-policy
+  app: accounts
+  version: "{{ .Values.accounts.version }}"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: accounts-deployment
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+{{- end -}}
+
+---
