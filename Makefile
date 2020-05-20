@@ -115,6 +115,7 @@ stop: ## Stop and remove all running container
 run: ## Run the full demo with docker-compose
 		docker-compose up
 
+
 ############################
 ##### KUBERNETES TASKS #####
 ############################
@@ -128,6 +129,7 @@ kubernetes_install: ## Install digibank application using kubectl
 
 kubernetes_remove: ## Remove digibank application using kubectl
 		kubectl delete -f ./kubernetes --namespace ${NAMESPACE}
+
 
 ######################
 ##### HELM TASKS #####
