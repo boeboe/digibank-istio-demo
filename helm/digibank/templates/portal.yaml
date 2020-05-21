@@ -153,95 +153,95 @@ spec:
                   name: digibank-configmap
                   key: dropTransactionsEndpoint
 
----
-{{- if .Values.portal.serviceNodePortEnabled -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: portal-nodeport
-  labels:
-    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
-    app: portal
-    version: "{{ .Values.portal.version }}"
-spec:
-  ports:
-    - name: "{{ .Values.portal.servicePortName }}"
-      port: {{ .Values.portal.servicePort }}
-      nodePort: {{ .Values.portal.serviceNodePort }}
-      targetPort: portal-port
-  selector:
-    app: portal
-  type: NodePort
-{{- else -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: portal
-  labels:
-    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
-    app: portal
-    version: "{{ .Values.portal.version }}"
-spec:
-  ports:
-    - name: "{{ .Values.portal.servicePortName }}"
-      port: {{ .Values.portal.servicePort }}
-      targetPort: portal-port
-  selector:
-    app: portal
-{{- end -}}
+# ---
+# {{- if .Values.portal.serviceNodePortEnabled -}}
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: portal-nodeport
+#   labels:
+#     chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+#     app: portal
+#     version: "{{ .Values.portal.version }}"
+# spec:
+#   ports:
+#     - name: "{{ .Values.portal.servicePortName }}"
+#       port: {{ .Values.portal.servicePort }}
+#       nodePort: {{ .Values.portal.serviceNodePort }}
+#       targetPort: portal-port
+#   selector:
+#     app: portal
+#   type: NodePort
+# {{- else -}}
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: portal
+#   labels:
+#     chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+#     app: portal
+#     version: "{{ .Values.portal.version }}"
+# spec:
+#   ports:
+#     - name: "{{ .Values.portal.servicePortName }}"
+#       port: {{ .Values.portal.servicePort }}
+#       targetPort: portal-port
+#   selector:
+#     app: portal
+# {{- end -}}
 
----
-{{- if .Values.hpa.enabled -}}
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
-  name: portal-hpa-policy
-  app: portal
-  version: "{{ .Values.portal.version }}"
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: portal-deployment
-  minReplicas: {{ .Values.hpa.minReplicas }}
-  maxReplicas: {{ .Values.hpa.maxReplicas }}
-  targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
-{{- end -}}
+# ---
+# {{- if .Values.hpa.enabled -}}
+# apiVersion: autoscaling/v1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+#   name: portal-hpa-policy
+#   app: portal
+#   version: "{{ .Values.portal.version }}"
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: portal-deployment
+#   minReplicas: {{ .Values.hpa.minReplicas }}
+#   maxReplicas: {{ .Values.hpa.maxReplicas }}
+#   targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+# {{- end -}}
 
----
-apiVersion: policy.aspenmesh.io/v1alpha1
-kind: Application
-metadata:
-  name: digibank
-spec:
-  inbound:
-    ports:
-    - number: 3000
-      protocol: HTTP
-      paths:
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          prefix: "/"
+# ---
+# apiVersion: policy.aspenmesh.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: digibank
+# spec:
+#   inbound:
+#     ports:
+#     - number: 3000
+#       protocol: HTTP
+#       paths:
+#       - expose:
+#           public: true
+#           jwtSecured: false
+#         uri:
+#           prefix: "/"
 
----
-apiVersion: policy.aspenmesh.io/v1alpha1
-kind: SecureIngress
-metadata:
-  name: digibank
-  annotations:
-    external-dns.alpha.kubernetes.io/target: 10.1.1.5
-spec:
-  domainName: "digibank.aspen-demo.org"
-  jwt:
-  - issuer: "admin@digibank.aspen-demo.org"
-    jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
-  exposedApplications:
-  - applicationReference:
-      name: digibank
-      namespace: digibank
-    serviceReference:
-      name: portal
-      namespace: digibank
+# ---
+# apiVersion: policy.aspenmesh.io/v1alpha1
+# kind: SecureIngress
+# metadata:
+#   name: digibank
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: 10.1.1.5
+# spec:
+#   domainName: "digibank.aspen-demo.org"
+#   jwt:
+#   - issuer: "admin@digibank.aspen-demo.org"
+#     jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
+#   exposedApplications:
+#   - applicationReference:
+#       name: digibank
+#       namespace: digibank
+#     serviceReference:
+#       name: portal
+#       namespace: digibank
