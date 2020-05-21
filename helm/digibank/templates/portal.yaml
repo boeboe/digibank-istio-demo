@@ -195,10 +195,11 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
   name: portal-hpa-policy
-  app: portal
-  version: "{{ .Values.portal.version }}"
+  labels:
+    app: portal
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    version: "{{ .Values.portal.version }}"
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

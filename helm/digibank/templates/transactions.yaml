@@ -84,10 +84,11 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
   name: transactions-hpa-policy
-  app: transactions
-  version: "{{ .Values.transactions.version }}"
+  labels:
+    app: transactions
+    chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
+    version: "{{ .Values.transactions.version }}"
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
