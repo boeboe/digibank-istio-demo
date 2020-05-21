@@ -1,4 +1,4 @@
-{{- if .Values.mongo.enabled -}}
+{{ if .Values.mongo.enabled -}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -102,4 +102,4 @@ spec:
     app: mongo
 
 ---
-{{- end -}}
+{{ end }}
