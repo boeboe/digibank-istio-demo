@@ -11,8 +11,8 @@ help: ## This help.
 NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
-PRIVATE_KEY_CERT=./kubernetes/private-key.pem
-WILDCARD_CERT=./kubernetes/wildcard-cert.pem
+PRIVATE_KEY_CERT=/home/ubuntu/aspen-demo-private-key.pem
+WILDCARD_CERT=/home/ubuntu/aspen-demo-wildcard-cert.pem
 
 HYDRA_SECRETS_SYSTEM=lJmn8CfxU55MMdmuHcBsUhCmClL4qgIu
 HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
