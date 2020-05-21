@@ -224,7 +224,7 @@ spec:
           public: true
           jwtSecured: false
         uri:
-          prefix: /
+          prefix: "/"
 
 ---
 apiVersion: policy.aspenmesh.io/v1alpha1
