@@ -71,7 +71,7 @@ portal:
   replicaCount: 1
   servicePort: 3000
   servicePortName: http-portal
-  serviceNodePortEnabled: true
+  serviceNodePortEnabled: false
   serviceNodePort: 30300
 
 support:
