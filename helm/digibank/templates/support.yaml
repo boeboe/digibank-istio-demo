@@ -10,7 +10,7 @@ metadata:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: support-deployment
+  name: support
   labels:
     chart: 'digibank-{{ .Chart.Version | replace "+" "_" }}'
     app: support
@@ -98,7 +98,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: support-deployment
+    name: support
   minReplicas: {{ .Values.hpa.minReplicas }}
   maxReplicas: {{ .Values.hpa.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
