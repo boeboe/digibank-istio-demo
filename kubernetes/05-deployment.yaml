@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo
+  name: mongo-deployment
   labels:
     app: mongo
     version: latest
@@ -57,7 +57,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: accounts
+  name: accounts-deployment
   labels:
     app: accounts
     version: 1.0.0
@@ -114,7 +114,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authentication
+  name: authentication-deployment
   labels:
     app: authentication
     version: 1.0.0
@@ -171,7 +171,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bills
+  name: bills-deployment
   labels:
     app: bills
     version: 1.0.0
@@ -228,7 +228,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: portal
+  name: portal-deployment
   labels:
     app: portal
     version: 1.0.0
@@ -376,7 +376,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: support
+  name: support-deployment
   labels:
     app: support
     version: 1.0.0
@@ -438,7 +438,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transactions
+  name: transactions-deployment
   labels:
     app: transactions
     version: 1.0.0
@@ -495,7 +495,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userbase
+  name: userbase-deployment
   labels:
     app: userbase
     version: 1.0.0
