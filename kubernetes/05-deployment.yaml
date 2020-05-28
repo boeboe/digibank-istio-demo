@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo
@@ -49,10 +49,9 @@ spec:
               memory: 512Mi
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: mongo-pvc
+          05-
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: accounts
@@ -106,7 +105,7 @@ spec:
                   name: digibank-configmap
                   key: mongoUrl
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: authentication
@@ -160,7 +159,7 @@ spec:
                   name: digibank-configmap
                   key: mongoUrl
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bills
@@ -214,7 +213,7 @@ spec:
                   name: digibank-configmap
                   key: mongoUrl
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: portal
@@ -359,7 +358,7 @@ spec:
                   name: digibank-configmap
                   key: dropTransactionsEndpoint
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: support
@@ -418,7 +417,7 @@ spec:
                   name: digibank-configmap
                   key: slackChannelId
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: transactions
@@ -472,7 +471,7 @@ spec:
                   name: digibank-configmap
                   key: mongoUrl
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userbase
