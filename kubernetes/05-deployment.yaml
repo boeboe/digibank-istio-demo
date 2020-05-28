@@ -51,8 +51,9 @@ spec:
               cpu: 300m
               memory: 512Mi
       volumes:
-        - name: data
-          05-
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
