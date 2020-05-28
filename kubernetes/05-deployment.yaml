@@ -8,6 +8,9 @@ metadata:
     version: latest
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
   template:
     metadata:
       labels:
@@ -60,6 +63,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: accounts
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -114,6 +120,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: authentication
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -168,6 +177,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: bills
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -222,6 +234,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: portal
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -367,6 +382,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: support
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -426,6 +444,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: transactions
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -480,6 +501,9 @@ metadata:
     version: 1.0.0
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: userbase
   strategy:
     type: RollingUpdate
     rollingUpdate:
