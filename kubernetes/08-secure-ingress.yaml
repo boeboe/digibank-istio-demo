@@ -5,14 +5,14 @@ metadata:
 spec:
   inbound:
     ports:
-    - number: 3000
-      protocol: HTTP
-      paths:
-      - expose:
-          public: true
-          jwtSecured: false
-        uri:
-          prefix: /
+      - number: 3000
+        protocol: HTTP
+        paths:
+          - expose:
+              public: true
+              jwtSecured: false
+            uri:
+              prefix: /
 ---
 apiVersion: policy.aspenmesh.io/v1alpha1
 kind: SecureIngress
@@ -23,12 +23,12 @@ metadata:
 spec:
   domainName: "digibank.aspen-demo.org"
   jwt:
-  - issuer: "admin@digibank.aspen-demo.org"
-    jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
+    - issuer: "admin@digibank.aspen-demo.org"
+      jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
   exposedApplications:
-  - applicationReference:
-      name: digibank
-      namespace: digibank
-    serviceReference:
-      name: portal
-      namespace: digibank
+    - applicationReference:
+        name: digibank
+        namespace: digibank
+      serviceReference:
+        name: portal
+        namespace: digibank
