@@ -4,7 +4,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dateFormat = require('dateformat');
 const request = require('request');
-const ip = require('ip');
 
 var app = express();
 

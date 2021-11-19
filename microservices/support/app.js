@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const messages = require('./mongoose/message');
+const { v4: uuidv4 } = require('uuid');
 
 var app = express();
 
@@ -15,8 +16,9 @@ app.all('*', function (req, res, next) {
 });
 
 app.post('/api/messages/create', async (req, res) => {
+  var uuid = uuidv4();
   var newMessage = {
-    uuid: req.body.uuid,
+    uuid: uuid,
     message: req.body.message
   };
   messages.create(newMessage, function (err) {

@@ -1,7 +1,7 @@
-FROM node:13.6.0-alpine3.11
+FROM node:lts-alpine3.14
 LABEL maintainer="bartvanbos@gmail.com"
 
-RUN apk add python make gcc g++ curl busybox-extras
+RUN apk add curl busybox-extras
 
 WORKDIR /app
 # Install app dependencies

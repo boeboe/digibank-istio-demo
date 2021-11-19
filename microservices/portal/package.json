@@ -13,7 +13,7 @@
     "dateformat": "^3.0.3",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "mongoose": "^5.8.7",
+    "mongoose": "^6.0.13",
     "request": "^2.88.2"
   }
 }

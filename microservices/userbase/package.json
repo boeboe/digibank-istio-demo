@@ -4,14 +4,13 @@
   "description": "Aspen Mesh Demo -  Digital Bank Microservices",
   "private": true,
   "engines": {
-    "node": "^13.6.0"
+    "node": "^16.13.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dateformat": "^3.0.3",
     "express": "^4.17.1",
-    "ip": "^1.1.5",
-    "mongoose": "^5.8.7",
-    "request": "^2.88.0"
+    "mongoose": "^6.0.13",
+    "request": "^2.88.2"
   }
 }

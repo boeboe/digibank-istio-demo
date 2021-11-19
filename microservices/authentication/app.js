@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const users = require('./mongoose/user');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 var app = express();
 
