@@ -29,7 +29,7 @@ data:
   dropBillsEndpoint: "/api/bills/drop"
 
   ##### Support #####
-  chatEndpoint: "/api/message"
+  chatEndpoint: "/api/messages/create"
 
   ##### Transactions #####
   createTransactionEndpoint: "/api/transactions/create"
