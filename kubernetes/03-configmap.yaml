@@ -5,7 +5,7 @@ metadata:
   name: digibank-configmap
 data:
   ##### Environment variables #####
-  mongoUrl: "mongodb://mongo:27017/admin"
+  mongoUrl: "mongodb://mongo:27017/digibank"
   currency: "EUR"
   sessionSecret: "w3hMHPfe4jK21UHYY0Ph"
   slackBotToken: "xoxb-YOURTOKEN-NOT-IN-GITHUB"
