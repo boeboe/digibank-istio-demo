@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const mongostore = require('connect-mongo')(session);
+const mongostore = require('connect-mongo');
 const request = require('request');
 
 var app = express();
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    store: new mongostore({url: process.env.MONGO_URL}),
+    store: mongostore.create({mongoUrl: process.env.MONGO_URL}),
     resave: true,
     saveUninitialized: true,
     cookie: {
