@@ -37,13 +37,17 @@ require('./routes/health')(app);
 
 var port = process.env.PORT;
 
-console.log(`Running on ${port}, connecting to ${process.env.MONGO_URL}`)
+console.log(`Starting HTTP server on port ${port} after connecting to MongoDB at "${process.env.MONGO_URL}""`)
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true , useUnifiedTopology: true },
-    function (ignore, connection) {
-        connection.onOpen();
-        app.listen(port, function () {
-            console.log('Innovate portal running on port: %d', port);
-        });
-    }
-);
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true , useUnifiedTopology: true })
+
+mongoose.connection.on('error', function (err) {
+  console.error('Error connecting to "%s":', process.env.MONGO_URL, err);
+});
+
+mongoose.connection.once('open', function() {
+  console.log('Succesfully connected to "%s"', process.env.MONGO_URL);
+  app.listen(port, function () {
+    console.log('Innovate portal running on port: %d', port);
+  });
+});
