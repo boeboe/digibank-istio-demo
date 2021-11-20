@@ -56,16 +56,11 @@ spec:
               cpu: "{{ .Values.image.resources.requests.cpu }}"
               memory: "{{ .Values.image.resources.requests.memory }}"
           env:
-            - name: SLACK_BOT_TOKEN
+            - name: MONGO_URL
               valueFrom:
                 configMapKeyRef:
                   name: digibank-configmap
-                  key: slackBotToken
-            - name: SLACK_CHANNEL_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: digibank-configmap
-                  key: slackChannelId
+                  key: mongoUrl
 
 ---
 apiVersion: v1

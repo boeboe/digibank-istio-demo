@@ -4,7 +4,7 @@
 .PHONY: help
 
 help: ## This help.
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .DEFAULT_GOAL := help
 
@@ -21,7 +21,7 @@ HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
 ##### DOCKER TASKS #####
 ########################
 
-build: ## Build all the containers
+docker-build: ## Build all the containers
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) build
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) build
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) build
@@ -30,7 +30,7 @@ build: ## Build all the containers
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) build
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) build
 
-build-nc: ## Build all the containers without caching
+docker-build-nc: ## Build all the containers without caching
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) build-nc
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) build-nc
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) build-nc
@@ -39,7 +39,7 @@ build-nc: ## Build all the containers without caching
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) build-nc
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) build-nc
 
-release: build-nc publish ## Make a release by building and publishing all `{version}` and `latest` tagged containers
+docker-release: docker-build-nc docker-publish ## Make a release by building and publishing all `{version}` and `latest` tagged containers
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) release
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) release
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) release
@@ -48,7 +48,7 @@ release: build-nc publish ## Make a release by building and publishing all `{ver
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) release
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) release
 
-publish: publish-latest publish-version ## Publish all `{version}` and `latest` tagged containers
+docker-publish: docker-publish-latest docker-publish-version ## Publish all `{version}` and `latest` tagged containers
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) publish
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) publish
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) publish
@@ -57,7 +57,7 @@ publish: publish-latest publish-version ## Publish all `{version}` and `latest` 
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) publish
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) publish
 
-publish-latest: tag-latest ## Publish all `latest` tagged container
+docker-publish-latest: docker-tag-latest ## Publish all `latest` tagged container
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) publish-latest
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) publish-latest
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) publish-latest
@@ -66,7 +66,7 @@ publish-latest: tag-latest ## Publish all `latest` tagged container
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) publish-latest
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) publish-latest
 
-publish-version: tag-version ## Publish all `{version}` tagged containers
+docker-publish-version: docker-tag-version ## Publish all `{version}` tagged containers
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) publish-version
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) publish-version
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) publish-version
@@ -75,7 +75,7 @@ publish-version: tag-version ## Publish all `{version}` tagged containers
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) publish-version
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) publish-version
 
-tag: tag-latest tag-version ## Generate all container tags for the `{version}` ans `latest` tags
+docker-tag: docker-tag-latest docker-tag-version ## Generate all container tags for the `{version}` ans `latest` tags
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) tag
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) tag
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) tag
@@ -84,7 +84,7 @@ tag: tag-latest tag-version ## Generate all container tags for the `{version}` a
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) tag
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) tag
 
-tag-latest: ## Generate all containers `{version}` tag
+docker-tag-latest: ## Generate all containers `{version}` tag
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) tag-latest
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) tag-latest
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) tag-latest
@@ -93,7 +93,7 @@ tag-latest: ## Generate all containers `{version}` tag
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) tag-latest
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) tag-latest
 
-tag-version: ## Generate all containers `latest` tag
+docker-tag-version: ## Generate all containers `latest` tag
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) tag-version
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) tag-version
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) tag-version
@@ -102,7 +102,7 @@ tag-version: ## Generate all containers `latest` tag
 	cd ${MICROSERVICES_FOLDER}/transactions && $(MAKE) tag-version
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) tag-version
 
-stop: ## Stop and remove all running container
+docker-stop: ## Stop and remove all running container
 	cd ${MICROSERVICES_FOLDER}/accounts && $(MAKE) stop 2>/dev/null || true
 	cd ${MICROSERVICES_FOLDER}/authentication && $(MAKE) stop 2>/dev/null || true
 	cd ${MICROSERVICES_FOLDER}/bills && $(MAKE) stop 2>/dev/null || true
@@ -112,25 +112,36 @@ stop: ## Stop and remove all running container
 	cd ${MICROSERVICES_FOLDER}/userbase && $(MAKE) stop 2>/dev/null || true
 	docker stop mongo 2>/dev/null ; docker rm mongo 2>/dev/null || true
 
-run: ## Run the full demo with docker-compose
+docker-run: ## Run the full demo with docker-compose
 	@echo "Digibank GUI will be available at http://localhost:3000/"
 	@echo "Mongo Express GUI will be available at http://localhost:8081/"
 	docker-compose up
-
 
 
 ############################
 ##### KUBERNETES TASKS #####
 ############################
 
-install_certificate: ## Install the certificate for secure ingress
-	kubectl create secret tls --namespace aspenmesh digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
+k8s_kind_create: ## Create K8s kind cluster
+	kind create cluster --name digibank
 
-kubernetes_install: ## Install digibank application using kubectl
-	kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
+k8s_kind_delete: ## Delete K8s kind cluster
+	kind delete cluster --name digibank
 
-kubernetes_remove: ## Remove digibank application using kubectl
-	kubectl delete -f ./kubernetes --namespace ${NAMESPACE}
+k8s_kind_install_certificate: ## Install the certificate for secure ingress
+	kubectl --context kind-digibank create secret tls --namespace aspenmesh digibank-digibank --key ${PRIVATE_KEY_CERT} --cert ${WILDCARD_CERT}
+
+k8s_kind_install_digibank: ## Install digibank application using kubectl
+	kubectl --context kind-digibank create namespace ${NAMESPACE} || true
+	kubectl --context kind-digibank apply -f ./kubernetes --namespace ${NAMESPACE}
+
+k8s_kind_remove_digibank: ## Remove digibank application using kubectl
+	kubectl --context kind-digibank delete -f ./kubernetes --namespace ${NAMESPACE}
+	kubectl --context kind-digibank delete namespace ${NAMESPACE}
+
+k8s_kind_expose_digibank: ## Expose digibank application using kubectl port-forward
+	@echo 'Exposing digibank portal on http://localhost:3000'
+	kubectl --context kind-digibank port-forward deployment/portal 3000:3000 --namespace ${NAMESPACE} 
 
 
 ######################

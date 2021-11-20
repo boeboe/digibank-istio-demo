@@ -12,8 +12,6 @@ data:
   mongoUrl: "{{ .Values.config.mongoUrl }}"
   currency: "{{ .Values.config.currency }}"
   sessionSecret: "{{ .Values.config.sessionSecret }}"
-  slackBotToken: "{{ .Values.config.slackBotToken }}"
-  slackChannelId: "{{ .Values.config.slackChannelId }}"
 
   ##### Accounts #####
   createAccountEndpoint: "/api/accounts/create"

@@ -1,0 +1,20 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: digibank
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      name: https
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: "digibank"
+      mode: SIMPLE
+      privateKey: sds
+      serverCertificate: sds
+    hosts:
+    - "digibank.aspen-demo.org"

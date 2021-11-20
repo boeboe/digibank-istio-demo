@@ -1,7 +1,7 @@
 {
   "name": "digibank-transactions-svc",
   "version": "1.0.0",
-  "description": "Aspen Mesh Demo -  Digital Bank Microservices",
+  "description": "F5 Demo - Digital Bank Microservices",
   "private": true,
   "engines": {
     "node": "^16.13.0"

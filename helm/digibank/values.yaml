@@ -7,8 +7,6 @@ config:
   currency: "EUR"
   mongoUrl: "mongodb://mongo:27017/digibank"
   sessionSecret: "w3hMHPfe4jK21UHYY0Ph"
-  slackBotToken: "xoxb-YOURTOKEN-NOT-IN-GITHUB"
-  slackChannelId: "C012X5BKR7F"
 
 image:
   pullPolicy: IfNotPresent

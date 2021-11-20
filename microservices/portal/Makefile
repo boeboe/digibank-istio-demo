@@ -27,10 +27,10 @@ network: ## Create local docker network
 	docker network ls|grep mynet > /dev/null || docker network create --driver bridge mynet
 
 run: network ## Run container
-	docker run -i -t --rm -p=$(PORT):$(PORT) --name="$(APP_NAME)" --net mynet --env-file env.list $(DOCKER_ACCOUNT)/$(APP_NAME)
+	docker run -it --rm -p=$(PORT):$(PORT) --name="$(APP_NAME)" --net mynet --env-file env.list $(DOCKER_ACCOUNT)/$(APP_NAME)
 
 sh: network ## Run interactive shell in container
-	docker run -i -t --entrypoint /bin/sh --name="$(APP_NAME)" --net mynet --env-file env.list $(DOCKER_ACCOUNT)/$(APP_NAME)
+	docker run -it --entrypoint /bin/sh --name="$(APP_NAME)" --net mynet --env-file env.list $(DOCKER_ACCOUNT)/$(APP_NAME)
 
 mongo: network ## Run mongo DB container
 	docker run -d --name mongo --net mynet -p 27017:27017 ${MONGO_IMAGE}
