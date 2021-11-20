@@ -5,7 +5,7 @@ metadata:
   name: digibank
 spec:
   hosts:
-  - "digibank.aspen-demo.org"
+  - "digibank.f5demo.org"
   gateways:
   - digibank
   http:

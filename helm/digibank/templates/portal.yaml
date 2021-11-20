@@ -235,9 +235,9 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: 10.1.1.5
 spec:
-  domainName: "digibank.aspen-demo.org"
+  domainName: "digibank.f5demo.org"
   jwt:
-    - issuer: "admin@digibank.aspen-demo.org"
+    - issuer: "admin@digibank.f5demo.org"
       jwksUri: "https://10.1.1.4:4444/.well-known/jwks.json"
   exposedApplications:
     - applicationReference:
