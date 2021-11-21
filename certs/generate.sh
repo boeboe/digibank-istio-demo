@@ -1,29 +1,51 @@
 #!/usr/bin/env bash
 
-DOMAIN=f5demo.org
-
-if [[ $1 = "root-ca" ]]; then
-  openssl genrsa -out root-key.pem 4096
-  openssl req -new -key root-key.pem -config root-ca.conf -out root-cert.csr
-  openssl x509 -req -days 3650 -signkey root-key.pem -extensions req_ext -extfile root-ca.conf -in root-cert.csr -out root-cert.pem
+if [[ $1 = "root" ]]; then
+  mkdir -p ./root
+  openssl genrsa -out ./root/root-key.pem 4096
+  openssl req -new -key ./root/root-key.pem -config ./conf/root.conf -out ./root/root-cert.csr
+  openssl x509 -req -days 3650 -signkey ./root/root-key.pem -extensions req_ext -extfile ./conf/root.conf -in ./root/root-cert.csr -out ./root/root-cert.pem
+  openssl x509 -in ./root/root-cert.pem -text
 	exit 0
 fi
 
 if [[ $1 = "istio-cluster" ]]; then
-  openssl genrsa -out ./istio-cluster/ca-key.pem 4096
-  openssl req -new -config ./istio-cluster/intermediate.conf -key ./istio-cluster/ca-key.pem -out ./istio-cluster/ca.csr
-  openssl x509 -req -days 730  -CA root-cert.pem -CAkey root-key.pem -CAcreateserial \
-		-extensions req_ext -extfile ./istio-cluster/intermediate.conf -in ./istio-cluster/ca.csr -out ./istio-cluster/ca-cert.pem
-  cat ./istio-cluster/ca-cert.pem root-cert.pem > ./istio-cluster/cert-chain.pem
+  mkdir -p ./istio-cluster
+  openssl genrsa -out ./istio-cluster/istio-cluster-ca-key.pem 4096
+  openssl req -new -config ./conf/istio-cluster.conf -key ./istio-cluster/istio-cluster-ca-key.pem -out ./istio-cluster/istio-cluster-ca.csr
+  openssl x509 -req -days 730  -CA ./root/root-cert.pem -CAkey ./root/root-key.pem -CAcreateserial \
+		-extensions req_ext -extfile ./conf/istio-cluster.conf -in ./istio-cluster/istio-cluster-ca.csr -out ./istio-cluster/istio-cluster-ca-cert.pem
+  cat ./istio-cluster/istio-cluster-ca-cert.pem ./root/root-cert.pem > ./istio-cluster/istio-cluster-ca-cert-chain.pem
+  openssl x509 -in ./istio-cluster/istio-cluster-ca-cert.pem -text
 	exit 0  
 fi
 
 if [[ $1 = "wildcard" ]]; then
-  openssl req -out ./wildcard/${DOMAIN}.csr -newkey rsa:4096 -sha512 -nodes -keyout ./wildcard/${DOMAIN}.key -subj "/CN=*.${DOMAIN}/O=F5"
-  openssl x509 -req -sha512 -days 3650 -CA root-cert.pem -CAkey root-key.pem -set_serial 0 -in ./wildcard/${DOMAIN}.csr -out ./wildcard/${DOMAIN}.pem
-  cat ./wildcard/${DOMAIN}.pem root-cert.pem > ./wildcard/${DOMAIN}-bundle.pem
+  mkdir -p ./wildcard
+  openssl genrsa -out ./wildcard/wildcard-key.pem 4096
+  openssl req -new -config ./conf/wildcard.conf -key ./wildcard/wildcard-key.pem -out ./wildcard/wildcard.csr
+  openssl x509 -req -days 730  -CA ./root/root-cert.pem -CAkey ./root/root-key.pem -CAcreateserial \
+		-extensions req_ext -extfile ./conf/wildcard.conf -in ./wildcard/wildcard.csr -out ./wildcard/wildcard-cert.pem
+  cat ./wildcard/wildcard-cert.pem ./root/root-cert.pem > ./wildcard/wildcard-cert-chain.pem
+  openssl x509 -in ./wildcard/wildcard-cert.pem -text
 	exit 0
 fi
 
-echo "please specify action ./generate.sh root-ca/cluster/wildcard"
+if [[ $1 = "digibank" ]]; then
+  mkdir -p ./digibank
+  openssl genrsa -out ./digibank/digibank-key.pem 4096
+  openssl req -new -config ./conf/digibank.conf -key ./digibank/digibank-key.pem -out ./digibank/digibank.csr
+  openssl x509 -req -days 730  -CA ./root/root-cert.pem -CAkey ./root/root-key.pem -CAcreateserial \
+		-extensions req_ext -extfile ./conf/digibank.conf -in ./digibank/digibank.csr -out ./digibank/digibank-cert.pem
+  cat ./digibank/digibank-cert.pem ./root/root-cert.pem > ./digibank/digibank-cert-chain.pem
+  openssl x509 -in ./digibank/digibank-cert.pem -text
+	exit 0
+fi
+
+if [[ $1 = "clean" ]]; then
+  rm -r ./root/* ./istio-cluster/* ./wildcard/* ./digibank/*
+	exit 0
+fi
+
+echo "please specify action ./generate.sh root/istio-cluster/wildcard/digibank/clean"
 exit 1

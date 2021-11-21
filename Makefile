@@ -11,6 +11,12 @@ help: ## This help.
 NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
+INGRESS_HOST 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+INGRESS_IP	 				:= $(shell dig +short ${INGRESS_HOST}| awk '{ print ; exit }')
+INGRESS_PORT 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+SECURE_INGRESS_PORT := $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+TCP_INGRESS_PORT 		:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+
 HYDRA_SECRETS_SYSTEM=lJmn8CfxU55MMdmuHcBsUhCmClL4qgIu
 HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
 
@@ -119,42 +125,29 @@ docker-run: ## Run the full demo with docker-compose
 ##### KUBERNETES TASKS #####
 ############################
 
-kind_create: ## Create K8s kind cluster
-	@echo 'Creating kind k8s cluster named digibank'
-	kind create cluster --name digibank
+k8s_install_digibank: ## Install digibank application
+	kubectl create namespace ${NAMESPACE} || true
+	kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
 
-kind_delete: ## Delete K8s kind cluster
-	kind delete cluster --name digibank
+k8s_remove_digibank: ## Remove digibank application
+	kubectl delete namespace ${NAMESPACE}
 
-kind_install_digibank: ## Install digibank application using kubectl
-	kubectl --context kind-digibank create namespace ${NAMESPACE} || true
-	kubectl --context kind-digibank apply -f ./kubernetes --namespace ${NAMESPACE}
+k8s_install_digibank_istio: ## Install istio enabled digibank application
+	kubectl create namespace ${NAMESPACE} || true
+	kubectl label namespace ${NAMESPACE} istio-injection=enabled --overwrite
+	kubectl apply -f ./kubernetes --namespace ${NAMESPACE}
+	kubectl create secret tls digibank-credential --namespace istio-system \
+		--key ./certs/digibank/digibank-key.pem \
+		--cert ./certs/digibank/digibank-cert.pem || true
+	kubectl apply -f ./istio --namespace ${NAMESPACE}
 
-kind_remove_digibank: ## Remove digibank application using kubectl
-	kubectl --context kind-digibank delete -f ./kubernetes --namespace ${NAMESPACE}
-	kubectl --context kind-digibank delete namespace ${NAMESPACE}
+k8s_remove_digibank_istio: ## Remove istio enabled digibank application
+	kubectl delete namespace ${NAMESPACE}
+	kubectl delete secret digibank-credential --namespace istio-system
 
-kind_expose_digibank: ## Expose digibank application using kubectl port-forward
-	@echo 'Exposing digibank portal on http://localhost:3000'
-	kubectl --context kind-digibank port-forward deployment/portal 3000:3000 --namespace ${NAMESPACE} 
-
-kind_install_istio: ## Install istio in kind cluster
-	istioctl operator init
-	kubectl --context kind-digibank create namespace istio-system || true
-	kubectl --context kind-digibank create secret generic cacerts -n istio-system \
-    --from-file=./certs/istio-cluster/ca-cert.pem \
-    --from-file=./certs/istio-cluster/ca-key.pem \
-    --from-file=./certs/root-cert.pem \
-    --from-file=./certs/istio-cluster/cert-chain.pem
-	kubectl --context kind-digibank apply -f ./istio/init
-
-kind_enable_istio_digibank: ## Enable istio on digibank application
-	kubectl --context kind-digibank label namespace istio-system istio-injection=enabled --overwrite
-	kubectl --context kind-digibank create secret tls digibank --namespace ${NAMESPACE} \
-		--key ./certs/wildcard/f5demo.org.key \
-		--cert ./certs/wildcard/f5demo.org-bundle.pem
-	kubectl --context kind-digibank apply -f ./istio --namespace ${NAMESPACE}
-	kubectl --context kind-digibank rollout restart deployment --namespace ${NAMESPACE}
+k8s_test_digibank_istio: ## Test istio enabled digibank application
+	while true ; do curl -v -HHost:digibank.f5demo.org --resolve "digibank.f5demo.org:${SECURE_INGRESS_PORT}:${INGRESS_IP}" \
+		--cacert ./certs/root/root-cert.pem "https://digibank.f5demo.org:${SECURE_INGRESS_PORT}/" ; sleep 1 ; done
 
 
 ######################

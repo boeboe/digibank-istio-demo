@@ -16,4 +16,4 @@ spec:
     - destination:
         port:
           number: 3000
-        host: portal
+        host: portal.digibank.svc.cluster.local

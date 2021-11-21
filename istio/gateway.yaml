@@ -12,9 +12,7 @@ spec:
       number: 443
       protocol: HTTPS
     tls:
-      credentialName: "digibank"
+      credentialName: digibank-credential
       mode: SIMPLE
-      privateKey: sds
-      serverCertificate: sds
     hosts:
     - "digibank.f5demo.org"

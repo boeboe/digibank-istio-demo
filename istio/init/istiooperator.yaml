@@ -1,3 +1,4 @@
+---
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -5,10 +6,7 @@ metadata:
   name: istiocontrolplane
 spec:
   components: 
-    egressGateways: 
-    - enabled: true
     ingressGateways: 
-    - enabled: true
-    pilot:
+    - name: istio-ingressgateway
       enabled: true
   profile: default
