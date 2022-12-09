@@ -8,12 +8,12 @@ var ConversationPanel = (function() {
     selectors: {
       chatBox: '#scrollingChat',
       fromUser: '.from-user',
-      fromSlack: '.from-slack',
+      fromOpenAi: '.from-openai',
       latest: '.latest'
     },
     authorTypes: {
       user: 'user',
-      slack: 'slack'
+      openai: 'openai'
     }
   };
 
@@ -41,7 +41,7 @@ var ConversationPanel = (function() {
     var currentResponsePayloadSetter = Api.setResponsePayload;
     Api.setResponsePayload = function(newPayloadStr) {
       currentResponsePayloadSetter.call(Api, newPayloadStr);
-      displayMessage(JSON.parse(newPayloadStr), settings.authorTypes.slack);
+      displayMessage(JSON.parse(newPayloadStr), settings.authorTypes.openai);
     };
   }
 
@@ -112,7 +112,7 @@ var ConversationPanel = (function() {
     Common.fireEvent(input, 'input');
   }
 
-  // Display a user or Slack message that has just been sent/received
+  // Display a user or OpenAi message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.message);
@@ -121,7 +121,7 @@ var ConversationPanel = (function() {
       var messageDivs = buildMessageDomElements(newPayload, isUser);
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
       var previousLatest = chatBoxElement.querySelectorAll((isUser
-              ? settings.selectors.fromUser : settings.selectors.fromSlack)
+              ? settings.selectors.fromUser : settings.selectors.fromOpenAi)
               + settings.selectors.latest);
       // Previous "latest" message is no longer the most recent
       if (previousLatest) {
@@ -140,13 +140,13 @@ var ConversationPanel = (function() {
     }
   }
 
-  // Checks if the given typeValue matches with the user "name", the Slack "name", or neither
-  // Returns true if user, false if Slack, and null if neither
-  // Used to keep track of whether a message was from the user or Slack
+  // Checks if the given typeValue matches with the user "name", the OpenAi "name", or neither
+  // Returns true if user, false if OpenAi, and null if neither
+  // Used to keep track of whether a message was from the user or OpenAi
   function isUserMessage(typeValue) {
     if (typeValue === settings.authorTypes.user) {
       return true;
-    } else if (typeValue === settings.authorTypes.slack) {
+    } else if (typeValue === settings.authorTypes.openai) {
       return false;
     }
     return null;
@@ -167,9 +167,9 @@ var ConversationPanel = (function() {
           'tagName': 'div',
           'classNames': ['segments'],
           'children': [{
-            // <div class='from-user/from-slack latest'>
+            // <div class='from-user/from-openai latest'>
             'tagName': 'div',
-            'classNames': [(isUser ? 'from-user' : 'from-slack'), 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
+            'classNames': [(isUser ? 'from-user' : 'from-openai'), 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
             'children': [{
               // <div class='message-inner'>
               'tagName': 'div',
@@ -191,9 +191,9 @@ var ConversationPanel = (function() {
 
   // Scroll to the bottom of the chat window (to the most recent messages)
   // Note: this method will bring the most recent user message into view,
-  //   even if the most recent message is from Slack.
+  //   even if the most recent message is from OpenAi.
   //   This is done so that the "context" of the conversation is maintained in the view,
-  //   even if the Slack message is long.
+  //   even if the OpenAi message is long.
   function scrollToChatBottom() {
     var scrollingChat = document.querySelector('#scrollingChat');
 

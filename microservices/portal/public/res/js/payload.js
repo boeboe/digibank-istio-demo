@@ -104,7 +104,7 @@ var PayloadPanel = (function() {
       'children': [{
         // <div class='header-text'>
         'tagName': 'div',
-        'text': isRequest ? 'User input' : 'Slack message',
+        'text': isRequest ? 'User input' : 'OpenAi message',
         'classNames': ['header-text']
       }, {
         // <div class='code-line responsive-columns-wrapper'>

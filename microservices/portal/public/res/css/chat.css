@@ -118,7 +118,7 @@
   border-top-right-radius: 1.25rem;
 }
 
-.from-slack .message-inner {
+.from-openai .message-inner {
   position: relative;
   border-radius: 1.5625rem;
   font-size: 1rem;
@@ -127,16 +127,16 @@
   line-height: 1.3125rem;
 }
 
-.from-slack.latest .message-inner {
+.from-openai.latest .message-inner {
   color: #323232;
 }
 
-.from-slack p {
+.from-openai p {
   margin: 0.3125rem;
   padding: 0 1.25rem;
 }
 
-.from-slack.latest.top p:before {
+.from-openai.latest.top p:before {
   content: ".";
   color: #d24142;
   background-image: url("images/marker.png");

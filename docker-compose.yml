@@ -4,21 +4,25 @@ services:
 
   mongo:
     image: mvertes/alpine-mongo
+    container_name: mongo
     ports:
       - "27017:27017"
 
   mongo-express:
     image: mongo-express
+    container_name: mongo-express
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongo
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
     ports:
       - "8081:8081"
+    restart: on-failure
     depends_on:
       - mongo
 
-  digibank-accounts-svc:
-    image: boeboe/digibank-accounts-svc
+  accounts:
+    image: boeboe/digibank-accounts
+    container_name: accounts
     env_file:
       - ./microservices/accounts/env.list
     ports:
@@ -26,8 +30,9 @@ services:
     depends_on:
       - mongo
 
-  digibank-authentication-svc:
-    image: boeboe/digibank-authentication-svc
+  authentication:
+    image: boeboe/digibank-authentication
+    container_name: authentication
     env_file:
       - ./microservices/authentication/env.list
     ports:
@@ -35,8 +40,9 @@ services:
     depends_on:
       - mongo
 
-  digibank-bills-svc:
-    image: boeboe/digibank-bills-svc
+  bills:
+    image: boeboe/digibank-bills
+    container_name: bills
     env_file:
       - ./microservices/bills/env.list
     ports:
@@ -44,22 +50,24 @@ services:
     depends_on:
       - mongo
 
-  digibank-portal-svc:
-    image: boeboe/digibank-portal-svc
+  portal:
+    image: boeboe/digibank-portal
+    container_name: portal
     env_file:
       - ./microservices/portal/env.list
     ports:
       - "3000:3000"
     depends_on:
       - mongo
-      - digibank-accounts-svc
-      - digibank-authentication-svc
-      - digibank-bills-svc
-      - digibank-support-svc
-      - digibank-transactions-svc
+      - accounts
+      - authentication
+      - bills
+      - support
+      - transactions
 
-  digibank-support-svc:
-    image: boeboe/digibank-support-svc
+  support:
+    image: boeboe/digibank-support
+    container_name: support
     env_file:
       - ./microservices/support/env.list
     ports:
@@ -67,8 +75,9 @@ services:
     depends_on:
       - mongo
 
-  digibank-transactions-svc:
-    image: boeboe/digibank-transactions-svc
+  transactions:
+    image: boeboe/digibank-transactions
+    container_name: transactions
     env_file:
       - ./microservices/transactions/env.list
     ports:
@@ -76,15 +85,16 @@ services:
     depends_on:
       - mongo
 
-  digibank-userbase-svc:
-    image: boeboe/digibank-userbase-svc
+  userbase:
+    image: boeboe/digibank-userbase
+    container_name: userbase
     env_file:
       - ./microservices/userbase/env.list
     ports:
       - "4200:4200"
     depends_on:
       - mongo
-      - digibank-accounts-svc
-      - digibank-authentication-svc
-      - digibank-bills-svc
-      - digibank-transactions-svc
+      - accounts
+      - authentication
+      - bills
+      - transactions

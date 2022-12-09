@@ -11,14 +11,14 @@ help: ## This help.
 NAMESPACE=digibank
 MICROSERVICES_FOLDER=./microservices
 
-INGRESS_HOST 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-INGRESS_IP	 				:= $(shell dig +short ${INGRESS_HOST}| awk '{ print ; exit }')
-INGRESS_PORT 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-SECURE_INGRESS_PORT := $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-TCP_INGRESS_PORT 		:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+# INGRESS_HOST 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+# INGRESS_IP	 				:= $(shell dig +short ${INGRESS_HOST}| awk '{ print ; exit }')
+# INGRESS_PORT 				:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+# SECURE_INGRESS_PORT := $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+# TCP_INGRESS_PORT 		:= $(shell kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
 
-HYDRA_SECRETS_SYSTEM=lJmn8CfxU55MMdmuHcBsUhCmClL4qgIu
-HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
+# HYDRA_SECRETS_SYSTEM=lJmn8CfxU55MMdmuHcBsUhCmClL4qgIu
+# HYDRA_DSN=postgres://hydra:secret@10.1.1.4:5432/hydra?sslmode=disable
 
 ########################
 ##### DOCKER TASKS #####
