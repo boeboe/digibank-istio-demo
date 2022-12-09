@@ -22,7 +22,7 @@
 *.tmproj
 
 # shit env file contains slack credentials (changeme file to be modified locally)
-*/support/env.list
+# */support/env.list
 
 # Private key of the wildcard certificate
 kubernetes/private-key.pem

@@ -1,8 +1,8 @@
-APP_NAME=digibank-transactions-svc
+APP_NAME=digibank-transactions
 DOCKER_ACCOUNT=boeboe
 PORT=3600
 MONGO_IMAGE=mvertes/alpine-mongo
-VERSION=1.0.0
+VERSION=2.0.0
 
 # HELP
 # This will output the help for each task

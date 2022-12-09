@@ -1,7 +1,7 @@
-FROM node:lts-alpine3.14
-LABEL maintainer="bartvanbos@gmail.com"
+FROM node:lts-alpine
+LABEL maintainer="bart@tetrate.io"
 
-RUN apk add curl busybox-extras
+RUN apk add --no-cache curl openssl busybox-extras
 
 WORKDIR /app
 # Install app dependencies
