@@ -7,7 +7,7 @@ const { Configuration, OpenAIApi } = require("openai");
 var app = express();
 
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -21,26 +21,30 @@ app.all('*', function (req, res, next) {
 
 app.post('/api/message', async function (req, res) {
   res.header("Content-Type", "application/json");
-  console.log("Going to send message: " + req.body.message)
+  console.log("Going to send openai prompt: " + req.body.message)
 
-  const completion = await openai.createCompletion({
-    model: "text-davinci-002", 
-    prompt: req.body.message
-  });
+  try {
+    const completion = await openai.createCompletion({
+      model: "text-davinci-003",
+      max_tokens: 2048,
+      prompt: req.body.message
+    });
 
-  let answer = ""
-  for (let i = 0; i < completion.data.choices.length; i++) {
-    answer += completion.data.choices[i].text + " ";
+    var payload = {
+      context: req.body.context || {},
+      message: completion.data.choices[0].text || {}
+    }
+
+    console.log("Received openai response: " + completion.data.choices[0].text);
+    res.status(200).json(payload);
+  } catch (error) {
+    if (error.response) {
+      console.log(error.response.status);
+      console.log(error.response.data);
+    } else {
+      console.log(error.message);
+    }
   }
-
-  var payload = {
-    context: req.body.context || {},
-    message: answer || {}
-  }
-
-  console.log("return payload: " + completion.data.choices[0].text);
-  console.log("return payload: " + completion.data.choices.length);
-  res.status(200).json(payload);
 });
 
 app.get('/health', function (req, res) {
